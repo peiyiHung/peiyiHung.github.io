@@ -1,0 +1,9 @@
+---
+title: "Data Visualization 資料視覺化"
+listing:
+  contents: posts/DataViz
+  type: default
+  categories: true
+  filter-ui: true
+  sort: "date desc"
+---

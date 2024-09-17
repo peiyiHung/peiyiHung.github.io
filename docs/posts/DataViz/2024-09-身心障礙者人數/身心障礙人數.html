@@ -1,0 +1,1473 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.5.43">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="dcterms.date" content="2024-09-16">
+<meta name="description" content="展示如何從Excel檔案中提取資料，再以點圖(dot plot)的方式做視覺化。">
+
+<title>Peiyi.H – 身心障礙者人數佔總人口比率-資料取得、整理及視覺化</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../../">
+<link href="../../../images/favicon.ico" rel="icon">
+<script src="../../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script src="../../../site_libs/quarto-contrib/glightbox/glightbox.min.js"></script>
+<link href="../../../site_libs/quarto-contrib/glightbox/glightbox.min.css" rel="stylesheet">
+<link href="../../../site_libs/quarto-contrib/glightbox/lightbox.css" rel="stylesheet">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+
+<link rel="stylesheet" href="../../../styles.css">
+</head>
+
+<body class="nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../../../index.html">
+    <span class="navbar-title">Peiyi.H</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../../dataViz.html"> 
+<span class="menu-text">DataViz</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../../gallery.html"> 
+<span class="menu-text">Gallery</span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-full page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#取得資料並擷取需要的數據" id="toc-取得資料並擷取需要的數據" class="nav-link active" data-scroll-target="#取得資料並擷取需要的數據">取得資料並擷取需要的數據</a>
+  <ul class="collapse">
+  <li><a href="#下載資料" id="toc-下載資料" class="nav-link" data-scroll-target="#下載資料">下載資料</a></li>
+  <li><a href="#從excel表中擷取需要的資料" id="toc-從excel表中擷取需要的資料" class="nav-link" data-scroll-target="#從excel表中擷取需要的資料">從Excel表中擷取需要的資料</a></li>
+  </ul></li>
+  <li><a href="#資料整理" id="toc-資料整理" class="nav-link" data-scroll-target="#資料整理">資料整理</a>
+  <ul class="collapse">
+  <li><a href="#整理地區的文字" id="toc-整理地區的文字" class="nav-link" data-scroll-target="#整理地區的文字">整理地區的文字</a></li>
+  <li><a href="#轉換資料架構" id="toc-轉換資料架構" class="nav-link" data-scroll-target="#轉換資料架構">轉換資料架構</a></li>
+  </ul></li>
+  <li><a href="#製作視覺化圖表" id="toc-製作視覺化圖表" class="nav-link" data-scroll-target="#製作視覺化圖表">製作視覺化圖表</a>
+  <ul class="collapse">
+  <li><a href="#主要圖形" id="toc-主要圖形" class="nav-link" data-scroll-target="#主要圖形">主要圖形</a></li>
+  <li><a href="#調整scale變數" id="toc-調整scale變數" class="nav-link" data-scroll-target="#調整scale變數">調整Scale變數</a></li>
+  <li><a href="#直接將縣市標示在圖形旁邊" id="toc-直接將縣市標示在圖形旁邊" class="nav-link" data-scroll-target="#直接將縣市標示在圖形旁邊">直接將縣市標示在圖形旁邊</a></li>
+  <li><a href="#加入標題及註解" id="toc-加入標題及註解" class="nav-link" data-scroll-target="#加入標題及註解">加入標題及註解</a></li>
+  <li><a href="#調整圖形的樣式" id="toc-調整圖形的樣式" class="nav-link" data-scroll-target="#調整圖形的樣式">調整圖形的樣式</a>
+  <ul class="collapse">
+  <li><a href="#調整兩軸的文字及標記" id="toc-調整兩軸的文字及標記" class="nav-link" data-scroll-target="#調整兩軸的文字及標記">調整兩軸的文字及標記</a></li>
+  <li><a href="#調整圖示" id="toc-調整圖示" class="nav-link" data-scroll-target="#調整圖示">調整圖示</a></li>
+  <li><a href="#調整格線" id="toc-調整格線" class="nav-link" data-scroll-target="#調整格線">調整格線</a></li>
+  <li><a href="#調整標題註解的樣式和圖片的邊框" id="toc-調整標題註解的樣式和圖片的邊框" class="nav-link" data-scroll-target="#調整標題註解的樣式和圖片的邊框">調整標題、註解的樣式和圖片的邊框</a></li>
+  </ul></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content column-page-left" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">身心障礙者人數佔總人口比率-資料取得、整理及視覺化</h1>
+  <div class="quarto-categories">
+    <div class="quarto-category">R</div>
+    <div class="quarto-category">tidyverse</div>
+    <div class="quarto-category">ggplot</div>
+    <div class="quarto-category">dot plot</div>
+  </div>
+  </div>
+
+<div>
+  <div class="description">
+    展示如何從Excel檔案中提取資料，再以點圖(dot plot)的方式做視覺化。
+  </div>
+</div>
+
+
+<div class="quarto-title-meta column-page-left">
+
+    
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">September 16, 2024</p>
+    </div>
+  </div>
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<hr>
+<p>在這篇文章中，我會展示如何使用R從Excel檔案中提取資料，並整理成需要的形式，最後再將各縣市男性與女性的身心障礙者人數佔總人口數比率以點圖(dot plot)的方式做視覺化。目標的圖表長這樣： <a href="img/身心障礙者佔總人口數比率.png" class="lightbox" data-gallery="quarto-lightbox-gallery-1"><img src="img/身心障礙者佔總人口數比率.png" class="img-fluid"></a></p>
+<section id="取得資料並擷取需要的數據" class="level1">
+<h1>取得資料並擷取需要的數據</h1>
+<p>我想取得的資料是：</p>
+<p><strong>2023年各縣市身心障礙者人數佔總人口比率資料，其中包含男性與女性的數據</strong></p>
+<section id="下載資料" class="level2">
+<h2 class="anchored" data-anchor-id="下載資料">下載資料</h2>
+<p>使用的資料是從衛生福利部統計處的<a href="https://dep.mohw.gov.tw/DOS/cp-5337-62357-113.html">網站</a>下載，在「衛生福利公務統計」&gt;「社會福利公務統計一覽表」中的「2.3.1身心障礙者人數按類別及縣市別分」統計表。大致上長這樣：</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="img/截圖.png" class="img-fluid quarto-figure quarto-figure-center figure-img"></p>
+</figure>
+</div>
+<p>統計表是Excel格式，資料內容包含：</p>
+<ul>
+<li><p>身心障礙者人數，分男性與女性</p></li>
+<li><p>各類別身心障礙者人數</p></li>
+<li><p>身心障礙者人數佔總人口比率</p></li>
+<li><p>上面三項資料依照各縣市區分</p></li>
+<li><p>從2011年到2023年的資料</p></li>
+</ul>
+<p>我們需要將資料從Excel檔案中提取出來。</p>
+</section>
+<section id="從excel表中擷取需要的資料" class="level2">
+<h2 class="anchored" data-anchor-id="從excel表中擷取需要的資料">從Excel表中擷取需要的資料</h2>
+<p>首先，讓我們先載入需要的library：</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readxl)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<ul>
+<li><p><code>tidyverse</code>是用來整理資料及繪製統計圖表</p></li>
+<li><p><code>readxl</code>則是用來讀取Excel檔案</p></li>
+</ul>
+<p>接著，我們用<code>readxl</code>中的<code>read_xlsx</code>來讀取人數佔比率的資料：</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">read_xlsx</span>(<span class="st">"data/2.3.1身心障礙者人數按類別及縣市別分.xlsx"</span>, </span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>          <span class="at">sheet =</span> <span class="st">"2023"</span>, </span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>          <span class="at">range =</span> <span class="fu">anchored</span>(<span class="st">"A8"</span>, <span class="at">dim =</span> <span class="fu">c</span>(<span class="dv">23</span>, <span class="dv">17</span>)),</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>          <span class="at">col_names =</span> <span class="fu">as.character</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">17</span>)) <span class="sc">|&gt;</span> <span class="co">#從excel檔中提取所需的資料</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="fu">select</span>(<span class="st">"1"</span>, <span class="st">"15"</span>,<span class="st">"16"</span>, <span class="st">"17"</span>)  <span class="sc">|&gt;</span> <span class="co">#挑選需要的變數</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="fu">rename</span>(<span class="st">"region"</span> <span class="ot">=</span> <span class="st">"1"</span>, <span class="co">#對變數重新命名</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>       <span class="st">"total"</span> <span class="ot">=</span> <span class="st">"15"</span>,</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>       <span class="st">"male"</span> <span class="ot">=</span> <span class="st">"16"</span>,</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>       <span class="st">"female"</span> <span class="ot">=</span> <span class="st">"17"</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>我會一項接著一項解釋這段程式碼做了什麼：</p>
+<ul>
+<li><p><code>read_xlsx</code>：</p>
+<ul>
+<li><p>第一項要放入Excel檔案的位置。</p></li>
+<li><p><code>sheet</code>則是指定你要的哪一個資料表，這裡放入<code>"2023"</code>代表你想要讀取的是名字為「2023」的工作表。如果放入數字的話，則是告訴這個函數要讀取第幾個表，舉例來說，若設定<code>sheet = 5</code>則會讀取第5個表。</p></li>
+<li><p><code>range</code>是用來指定要選取的儲存格範圍。<code>anchored("A8", dim = c(23, 17))</code>指定的是儲存格A8向下23列、向右17行的資料。</p></li>
+<li><p>其他指定資料範圍的方法包括<code>range = "B3:D6"</code> 來指定一個長方形的左上角及右下角、<code>range = cell_rows(3:5)</code>來選取第3到5行的資料，細節可參考<a href="https://readxl.tidyverse.org/reference/cell-specification.html">這裡</a>。</p></li>
+<li><p><code>col_names = as.character(1:17)</code>則是暫時給每一個column暫時的名稱。會這麼做的原因是，如果不這麼做，column name中會包含中文，我在寫code的途中這麼做的時候，我的R session不斷地當機，必須改成不包含中文的名稱才能順利讀取資料。</p></li>
+</ul></li>
+<li><p>從Excel中可以知道第1、15、16、17是我們需要的變數，<code>select("1", "15","16", "17")</code>用來選取我們要的columns。</p></li>
+<li><p><code>rename("region" = "1", "total" = "15", "male" = "16", "female" = "17")</code>則是將column name改成更好理解的名稱。</p></li>
+</ul>
+<p>提取出來的資料集，就會包含我們所需要的資料：</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">read_xlsx</span>(<span class="st">"data/2.3.1身心障礙者人數按類別及縣市別分.xlsx"</span>, </span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>          <span class="at">sheet =</span> <span class="st">"2023"</span>,</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>          <span class="at">range =</span> <span class="fu">anchored</span>(<span class="st">"A8"</span>, <span class="at">dim =</span> <span class="fu">c</span>(<span class="dv">23</span>, <span class="dv">17</span>)),</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>          <span class="at">col_names =</span> <span class="fu">as.character</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">17</span>)) <span class="sc">|&gt;</span> <span class="co">#從excel檔中提取所需的資料</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="fu">select</span>(<span class="st">"1"</span>, <span class="st">"15"</span>,<span class="st">"16"</span>, <span class="st">"17"</span>)  <span class="sc">|&gt;</span> <span class="co">#挑選需要的變數</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="fu">rename</span>(<span class="st">"region"</span> <span class="ot">=</span> <span class="st">"1"</span>,</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>       <span class="st">"total"</span> <span class="ot">=</span> <span class="st">"15"</span>,</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>       <span class="st">"male"</span> <span class="ot">=</span> <span class="st">"16"</span>,</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>       <span class="st">"female"</span> <span class="ot">=</span> <span class="st">"17"</span>) <span class="co">#對變數重新命名</span></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>df</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 23 × 4
+   region                 total  male female
+   &lt;chr&gt;                  &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt;
+ 1 總計  Total             5.19  5.79   4.6 
+ 2 新北市 New Taipei City  4.44  5.07   3.85
+ 3 臺北市 Taipei City      4.74  5.33   4.21
+ 4 桃園市 Taoyuan City     3.96  4.48   3.46
+ 5 臺中市 Taichung City    4.68  5.28   4.11
+ 6 臺南市 Tainan City      5.35  5.91   4.8 
+ 7 高雄市 Kaohsiung City   5.4   5.99   4.84
+ 8 宜蘭縣 Yilan County     7.06  7.58   6.54
+ 9 新竹縣 Hsinchu County   4.04  4.6    3.46
+10 苗栗縣 Miaoli County    6.32  6.93   5.66
+# ℹ 13 more rows</code></pre>
+</div>
+</div>
+</section>
+</section>
+<section id="資料整理" class="level1">
+<h1>資料整理</h1>
+<p>在進入視覺化之前，我們還需對資料做兩項處理：</p>
+<ol type="1">
+<li>將地區(region)變數中，縣市英文名稱的部分去除。</li>
+<li>將資料的架構轉換成”tidy”的形式，以利使用ggplot來做視覺化。</li>
+</ol>
+<section id="整理地區的文字" class="level2">
+<h2 class="anchored" data-anchor-id="整理地區的文字">整理地區的文字</h2>
+<p>你可以觀察到，各縣市的文字中包含縣市的英文，為了能將縣市名稱更簡潔的呈現在圖表中，我們要剔除英文名稱。</p>
+<p>首先，我們先將地區名稱中英文的部分分開來：</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>df <span class="sc">|&gt;</span> <span class="fu">separate_wider_delim</span>(</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>        <span class="at">cols =</span> region, </span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>        <span class="at">delim =</span> <span class="st">" "</span>,</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>        <span class="at">names =</span> <span class="fu">c</span>(<span class="st">"region"</span>, <span class="st">"region_eng"</span>),</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>        <span class="at">too_many =</span> <span class="st">"drop"</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>    )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 23 × 5
+   region region_eng  total  male female
+   &lt;chr&gt;  &lt;chr&gt;       &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt;
+ 1 總計   ""           5.19  5.79   4.6 
+ 2 新北市 "New"        4.44  5.07   3.85
+ 3 臺北市 "Taipei"     4.74  5.33   4.21
+ 4 桃園市 "Taoyuan"    3.96  4.48   3.46
+ 5 臺中市 "Taichung"   4.68  5.28   4.11
+ 6 臺南市 "Tainan"     5.35  5.91   4.8 
+ 7 高雄市 "Kaohsiung"  5.4   5.99   4.84
+ 8 宜蘭縣 "Yilan"      7.06  7.58   6.54
+ 9 新竹縣 "Hsinchu"    4.04  4.6    3.46
+10 苗栗縣 "Miaoli"     6.32  6.93   5.66
+# ℹ 13 more rows</code></pre>
+</div>
+</div>
+<ul>
+<li><p><code>separate_wider_delim()</code>函數的功能是將字串根據某個符號為分界，來分開為不同行。</p></li>
+<li><p><code>cols</code>指定要分開的對象，這裡我們要分開的目標是<code>region</code>這一行。</p></li>
+<li><p><code>delim</code>則是指定要以什麼文字或符號分開，這裡我們以中英文之間的空格做區分，所以<code>delim = " "</code>。</p></li>
+<li><p><code>names</code>是指定你分開後的行要叫什麼名稱。</p></li>
+<li><p>如果以仔細觀察，可以發現<code>region</code>中的文字有的包含不只一個空格，因為我們只想以第一個空格做切分，所以設定<code>too_many = "drop"</code>把多的部分都丟掉</p></li>
+</ul>
+<p>接著我們再把不需要的<code>region_eng</code>丟掉，並將<code>region</code>中的「總計」轉換成「全國」：</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> df <span class="sc">|&gt;</span> <span class="fu">separate_wider_delim</span>(</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>        <span class="at">cols =</span> region, </span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>        <span class="at">delim =</span> <span class="st">" "</span>,</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>        <span class="at">names =</span> <span class="fu">c</span>(<span class="st">"region"</span>, <span class="st">"region_eng"</span>),</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>        <span class="at">too_many =</span> <span class="st">"drop"</span></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">|&gt;</span> </span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">select</span>(<span class="sc">-</span><span class="dv">2</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(</span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>        <span class="at">region =</span> <span class="fu">if_else</span>(region <span class="sc">==</span> <span class="st">"總計"</span>, <span class="st">"全國"</span>, region)</span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>df</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 23 × 4
+   region total  male female
+   &lt;chr&gt;  &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt;
+ 1 全國    5.19  5.79   4.6 
+ 2 新北市  4.44  5.07   3.85
+ 3 臺北市  4.74  5.33   4.21
+ 4 桃園市  3.96  4.48   3.46
+ 5 臺中市  4.68  5.28   4.11
+ 6 臺南市  5.35  5.91   4.8 
+ 7 高雄市  5.4   5.99   4.84
+ 8 宜蘭縣  7.06  7.58   6.54
+ 9 新竹縣  4.04  4.6    3.46
+10 苗栗縣  6.32  6.93   5.66
+# ℹ 13 more rows</code></pre>
+</div>
+</div>
+<ul>
+<li><p><code>select(-2)</code>的意思是選擇除了第2行以外的變數。</p></li>
+<li><p><code>mutate( region = if_else(region == "總計", "全國", region) )</code>則是當<code>region</code>中的值是「總計」時用「全國」取代它，其他的時候則保留原本<code>region</code>的值。</p></li>
+</ul>
+</section>
+<section id="轉換資料架構" class="level2">
+<h2 class="anchored" data-anchor-id="轉換資料架構">轉換資料架構</h2>
+<p>我們需要資料是tidy的形式，代表資料集中的每一個行都是一個變數，每一個儲存格中都只儲存一個值(更詳細的定義及解釋可參考<a href="https://r4ds.hadley.nz/data-tidy">這裡</a>)。原本的資料中，性別(gender)這個變數沒有被列在一個行中，而是分別散佈在三個不同的行中，我們可以使用<code>pivot_longer</code>做到這件事：</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> df <span class="sc">|&gt;</span> <span class="fu">pivot_longer</span>(</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>        <span class="at">cols =</span> <span class="fu">c</span>(<span class="st">"total"</span>, <span class="st">"male"</span>, <span class="st">"female"</span>),</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>        <span class="at">names_to =</span> <span class="st">"gender"</span>,</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>        <span class="at">values_to =</span> <span class="st">"ratio"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<ul>
+<li><p><code>pivot_longer</code> 是將原本的資料「拉長」，將存於行標題中的資料放到儲存格裡。</p></li>
+<li><p><code>cols</code>指定要轉換的行，我們要將性別的資料放下來到儲存格中，所以設定<code>cols = c("total", "male", "female")</code>。</p></li>
+<li><p><code>names_to</code>指定我們放下來的資料那一行的標題名稱，因為是性別資料，因此設定為<code>names_to = "gender"</code>。</p></li>
+<li><p>原本在<code>"total", "male", "female"</code> 下方的資料是比率，所以透過<code>values_to = "ratio"</code>將它們命名為<code>ratio</code>。</p></li>
+</ul>
+<p>整理完後的資料就會呈現這樣的形式：</p>
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 69 × 3
+   region gender ratio
+   &lt;chr&gt;  &lt;chr&gt;  &lt;dbl&gt;
+ 1 全國   total   5.19
+ 2 全國   male    5.79
+ 3 全國   female  4.6 
+ 4 新北市 total   4.44
+ 5 新北市 male    5.07
+ 6 新北市 female  3.85
+ 7 臺北市 total   4.74
+ 8 臺北市 male    5.33
+ 9 臺北市 female  4.21
+10 桃園市 total   3.96
+# ℹ 59 more rows</code></pre>
+</div>
+</div>
+<p>整理好資料後，我們終於可以進入視覺化的部分。</p>
+</section>
+</section>
+<section id="製作視覺化圖表" class="level1">
+<h1>製作視覺化圖表</h1>
+<p>重新確認我們的目標，我們想要畫出這樣的圖表： <a href="img/身心障礙者佔總人口數比率.png" class="lightbox" data-gallery="quarto-lightbox-gallery-2"><img src="img/身心障礙者佔總人口數比率.png" class="img-fluid"></a></p>
+<p>我會一步一步的說明要如何畫出這樣的圖形。</p>
+<section id="主要圖形" class="level2">
+<h2 class="anchored" data-anchor-id="主要圖形">主要圖形</h2>
+<p>先畫出每個縣市男性與女性比率的點，以及連接的線段：</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>df <span class="sc">|&gt;</span> </span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">filter</span>(gender <span class="sc">!=</span> <span class="st">"total"</span>) <span class="sc">|&gt;</span>  </span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> ratio, <span class="at">y =</span> region)) <span class="sc">+</span></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_line</span>() <span class="sc">+</span></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_point</span>() </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="身心障礙人數_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid figure-img" width="3000"></p>
+</figure>
+</div>
+</div>
+</div>
+<ul>
+<li><p>因為我們不需要總體的比率，所以用<code>filter(gender != "total")</code>將它們篩選掉。</p></li>
+<li><p>我們想要將縣市的位置畫在y軸，比率的資料畫在x軸，所以<code>ggplot</code>中的<code>aes</code>會設定成<code>aes(x = ratio, y = region)</code>。</p></li>
+<li><p><code>geom_line</code>及<code>geom_point</code>分別畫出線段及點。</p></li>
+</ul>
+<p>為了更容易區分男性及女性的資料，我會將它們塗上不同的顏色。除此之外，還會設定點的大小以及線段的粗細：</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>df <span class="sc">|&gt;</span> </span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">filter</span>(gender <span class="sc">!=</span> <span class="st">"total"</span>) <span class="sc">|&gt;</span>  </span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> ratio, <span class="at">y =</span> region)) <span class="sc">+</span></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_line</span>(<span class="at">linewidth =</span> <span class="fl">1.5</span>, <span class="at">color =</span> <span class="st">"#758694"</span>) <span class="sc">+</span></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">color =</span> gender), <span class="at">size =</span> <span class="dv">2</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="身心障礙人數_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid figure-img" width="3000"></p>
+</figure>
+</div>
+</div>
+</div>
+<ul>
+<li><p><code>geom_line</code>中，<code>linewidth</code>及<code>color</code>是用來調整線的粗細及顏色。</p></li>
+<li><p><code>geom_point</code>中的<code>aes(color = gender)</code>則是說我們要根據<code>gender</code>這個變數來調整點的顏色。</p></li>
+</ul>
+<p>你應該已經發現了，Ｒ這時沒辦法顯示中文字，我們可以用指定中文字型的方式來解決：</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>df <span class="sc">|&gt;</span> </span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">filter</span>(gender <span class="sc">!=</span> <span class="st">"total"</span>) <span class="sc">|&gt;</span>  </span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> ratio, <span class="at">y =</span> region)) <span class="sc">+</span></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_line</span>(<span class="at">linewidth =</span> <span class="fl">1.5</span>, <span class="at">color =</span> <span class="st">"#758694"</span>) <span class="sc">+</span></span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">color =</span> gender), <span class="at">size =</span> <span class="dv">2</span>) <span class="sc">+</span></span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme</span>(</span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>        <span class="at">text =</span> <span class="fu">element_text</span>(<span class="at">family =</span> <span class="st">"Noto Sans TC"</span>)</span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>    )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="身心障礙人數_files/figure-html/unnamed-chunk-10-1.png" class="img-fluid figure-img" width="3000"></p>
+</figure>
+</div>
+</div>
+</div>
+<ul>
+<li><code>theme</code>函數是用來設定圖表的整體風格的，之後我們會再用到它。</li>
+<li><code>theme</code>函數中調整圖案風格的方法大都是以<code>element_{物件種類}</code>的方式分做設定。舉例來說，我們要調整的是文字，所以是用<code>element_text</code>，如果要調整的物件是線條的話，那就是用<code>element_line</code>。</li>
+<li><code>family = "Noto Sans TC"</code>則是將字體設定為煩繁體中文的思源黑體。</li>
+</ul>
+<p>為了保持一致性，我會將縣市間呈現的順序調整成與原始資料集中呈現的一樣。做法是將<code>region</code>這個變數調整成Ｒ的factor類型變數，再指定其level，訂定縣市的先後順序。所以我們先做一個表示level的vector：</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>region_level <span class="ot">&lt;-</span> df <span class="sc">|&gt;</span> </span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">select</span>(region) <span class="sc">|&gt;</span> </span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">distinct</span>(region) <span class="sc">|&gt;</span> </span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">pull</span>() <span class="sc">|&gt;</span> </span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">rev</span>()</span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>region_level</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> [1] "連江縣" "金門縣" "嘉義市" "新竹市" "基隆市" "澎湖縣" "花蓮縣" "臺東縣"
+ [9] "屏東縣" "嘉義縣" "雲林縣" "南投縣" "彰化縣" "苗栗縣" "新竹縣" "宜蘭縣"
+[17] "高雄市" "臺南市" "臺中市" "桃園市" "臺北市" "新北市" "全國"  </code></pre>
+</div>
+</div>
+<p>再將<code>region</code>轉化為factor：</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>p <span class="ot">&lt;-</span> df <span class="sc">|&gt;</span> </span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">filter</span>(gender <span class="sc">!=</span> <span class="st">"total"</span>) <span class="sc">|&gt;</span>  </span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> ratio, <span class="at">y =</span> <span class="fu">factor</span>(region, region_level))) <span class="sc">+</span> <span class="co">#轉換為factor</span></span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_line</span>(<span class="at">linewidth =</span> <span class="fl">1.5</span>, <span class="at">color =</span> <span class="st">"#758694"</span>) <span class="sc">+</span></span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">color =</span> gender), <span class="at">size =</span> <span class="dv">2</span>) <span class="sc">+</span></span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme</span>(</span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>        <span class="at">text =</span> <span class="fu">element_text</span>(<span class="at">family =</span> <span class="st">"Noto Sans TC"</span>)</span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a>p</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="身心障礙人數_files/figure-html/unnamed-chunk-12-1.png" class="img-fluid figure-img" width="3000"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="調整scale變數" class="level2">
+<h2 class="anchored" data-anchor-id="調整scale變數">調整Scale變數</h2>
+<p>在圖表中，我們在x軸畫出比率的資料，在y軸分別縣市，用顏色區分性別。在ggplot2中，我們可以使用<code>scale_{aes}_{type}</code>的方式調整這三項要素呈現的方式，<code>aes</code>指的是要設定的要素，<code>type</code>則是定義我們設定這個<code>aes</code>的方法或要呈現的形式。</p>
+<p><strong>指定不同性別的顏色</strong></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>p <span class="sc">+</span> <span class="fu">scale_color_discrete</span>(</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>      <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">"女性"</span>, <span class="st">"男性"</span>), <span class="co">#改變性別的呈現方式</span></span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>      <span class="at">type =</span> <span class="fu">c</span>(<span class="st">"#E76F55"</span>, <span class="st">"#01B8A9"</span>) <span class="co">#指定顏色</span></span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>    )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="身心障礙人數_files/figure-html/unnamed-chunk-13-1.png" class="img-fluid figure-img" width="3000"></p>
+</figure>
+</div>
+</div>
+</div>
+<ul>
+<li><p>因為要調整的是顏色，所以是<code>scale_color_{type}</code>。另外，因為性別是離散的變數，所以是<code>scale_color_discrete</code>。</p></li>
+<li><p><code>labels</code>指定的是呈現性別這個變數的標籤，你可以看到右方的圖示改變了。<code>type</code>則是指定要呈現的顏色。</p></li>
+</ul>
+<p><strong>調整x軸標籤的格式</strong></p>
+<p>我們的目標圖形中，x軸的數字是呈現到小數點後一位，我們可以用<code>scales</code>這個library來設定：</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>p <span class="sc">+</span> <span class="fu">scale_x_continuous</span>(</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>    <span class="at">labels =</span> scales<span class="sc">::</span><span class="fu">label_number</span>(<span class="at">accuracy =</span> <span class="fl">0.1</span>),</span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">breaks =</span> <span class="fu">seq</span>(<span class="dv">3</span>, <span class="dv">9</span>, <span class="dv">1</span>)</span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="身心障礙人數_files/figure-html/unnamed-chunk-14-1.png" class="img-fluid figure-img" width="3000"></p>
+</figure>
+</div>
+</div>
+</div>
+<ul>
+<li><p><code>scales::label_number(accuracy = 0.1)</code>是將你所呈現的數字的精準度以0.1為一單位。在<code>scales</code> library中，還有其他函數能指定你數值呈現的方式，例如<code>label_dollar</code>可以將數字轉化為貨幣的形式，更多細節可以參考<a href="https://scales.r-lib.org/reference/index.html">這裡</a>。</p></li>
+<li><p><code>breaks = seq(3, 9, 1)</code>則是設定你要呈現標記出數值的地方。用下面這個例子來讓你更暸解其運作方式，如果我們x軸標籤只想要顯示5和8兩個數值：</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>p <span class="sc">+</span> <span class="fu">scale_x_continuous</span>(</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>    <span class="at">labels =</span> scales<span class="sc">::</span><span class="fu">label_number</span>(<span class="at">accuracy =</span> <span class="fl">0.1</span>),</span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">breaks =</span> <span class="fu">c</span>(<span class="dv">5</span>, <span class="dv">8</span>)</span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="身心障礙人數_files/figure-html/unnamed-chunk-15-1.png" class="img-fluid figure-img" width="3000"></p>
+</figure>
+</div>
+</div>
+</div></li>
+</ul>
+<p>將上面2個部分整合起來：</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>p <span class="ot">&lt;-</span> p <span class="sc">+</span> </span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scale_color_discrete</span>(</span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>        <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">"女性"</span>, <span class="st">"男性"</span>), <span class="co">#性別標籤</span></span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>        <span class="at">type =</span> <span class="fu">c</span>(<span class="st">"#E76F55"</span>, <span class="st">"#01B8A9"</span>) <span class="co">#指定顏色</span></span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">+</span></span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scale_x_continuous</span>(</span>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a>        <span class="at">labels =</span> scales<span class="sc">::</span><span class="fu">label_number</span>(<span class="at">accuracy =</span> <span class="fl">0.1</span>), <span class="co">#以0.1為最小單位</span></span>
+<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a>        <span class="at">breaks =</span> <span class="fu">seq</span>(<span class="dv">3</span>, <span class="dv">9</span>, <span class="at">by =</span> <span class="dv">1</span>) <span class="co">#標記3到9</span></span>
+<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb20-10"><a href="#cb20-10" aria-hidden="true" tabindex="-1"></a>p</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="身心障礙人數_files/figure-html/unnamed-chunk-16-1.png" class="img-fluid figure-img" width="3000"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="直接將縣市標示在圖形旁邊" class="level2">
+<h2 class="anchored" data-anchor-id="直接將縣市標示在圖形旁邊">直接將縣市標示在圖形旁邊</h2>
+<p>為了讓讀者更容易辨別每一個線段屬於哪一個縣市，我們可以將縣市的文字標注在線段旁邊。我們首先製作一個資料集用來指定要標記的文字及標注的位置：</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>loca <span class="ot">&lt;-</span> df <span class="sc">|&gt;</span> </span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">filter</span>(</span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>        gender <span class="sc">==</span> <span class="st">"female"</span></span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">|&gt;</span> </span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(</span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>        <span class="at">position =</span> ratio <span class="sc">-</span> .<span class="dv">25</span></span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a>loca</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 23 × 4
+   region gender ratio position
+   &lt;chr&gt;  &lt;chr&gt;  &lt;dbl&gt;    &lt;dbl&gt;
+ 1 全國   female  4.6      4.35
+ 2 新北市 female  3.85     3.6 
+ 3 臺北市 female  4.21     3.96
+ 4 桃園市 female  3.46     3.21
+ 5 臺中市 female  4.11     3.86
+ 6 臺南市 female  4.8      4.55
+ 7 高雄市 female  4.84     4.59
+ 8 宜蘭縣 female  6.54     6.29
+ 9 新竹縣 female  3.46     3.21
+10 苗栗縣 female  5.66     5.41
+# ℹ 13 more rows</code></pre>
+</div>
+</div>
+<ul>
+<li><p>因為我們要將文字標記在女性比例的左側，所以我們只保留女性的資料(<code>filter(gender == "female")</code>)。</p></li>
+<li><p>文字的位置要放在女性比率的左側一點點，所以透過將比率的值減去一點點，新設立一個新變數來表示位置<code>mutate( position = ratio - .2 )</code>。</p></li>
+</ul>
+<p>我們使用<code>geom_text</code>來標注文字：</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>p <span class="ot">&lt;-</span> p <span class="sc">+</span> </span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_text</span>(<span class="at">data =</span> loca, </span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>              <span class="fu">aes</span>(<span class="at">y =</span> region, </span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>                  <span class="at">x =</span> position, </span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>                  <span class="at">label =</span> region, </span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>                  <span class="at">family =</span> <span class="st">"Noto Sans TC"</span>), </span>
+<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a>              <span class="at">size =</span> <span class="dv">4</span>) </span>
+<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a>p</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="身心障礙人數_files/figure-html/unnamed-chunk-18-1.png" class="img-fluid figure-img" width="3000"></p>
+</figure>
+</div>
+</div>
+</div>
+<ul>
+<li><p>因為我們現在要用<code>loca</code>來畫圖，所以要將資料設定為<code>loca</code>，<code>data = loca</code>。</p></li>
+<li><p>在<code>aes()</code>中，<code>x</code>和<code>y</code>是指定文字的座標，<code>label</code>則是我們要標記的文字，<code>family</code>是中文字型。</p></li>
+</ul>
+<p>目前文字看起來還不是很美觀，我會留在最後再做調整。</p>
+</section>
+<section id="加入標題及註解" class="level2">
+<h2 class="anchored" data-anchor-id="加入標題及註解">加入標題及註解</h2>
+<p>標題及註解能正確的告訴讀者我們所呈現數據的意義，是必不可少的。我們使用<code>labs()</code>來加上標題及註解：</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>p <span class="ot">&lt;-</span> p <span class="sc">+</span></span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>        <span class="at">title =</span> <span class="st">"各縣市身心障礙者佔人口數比率"</span>,</span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>        <span class="at">subtitle =</span> <span class="st">"各縣市男性比率皆大於女性，其中台東縣男女間差距最大，澎湖縣則最小"</span>,</span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>        <span class="at">x =</span> <span class="st">"身心障礙者佔人口數比率（％）"</span>,</span>
+<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a>        <span class="at">caption =</span> <span class="fu">c</span>(<span class="st">"註：男性比率為男性身心障礙人口數除以男性總人口數，女性比率算法以此類推"</span>,</span>
+<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a>                    <span class="st">"資料時間：2023年底．資料來源：衛生福利部統計處"</span>),</span>
+<span id="cb24-8"><a href="#cb24-8" aria-hidden="true" tabindex="-1"></a>    ) </span>
+<span id="cb24-9"><a href="#cb24-9" aria-hidden="true" tabindex="-1"></a>p</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="身心障礙人數_files/figure-html/unnamed-chunk-19-1.png" class="img-fluid figure-img" width="3000"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>大致上應該很好理解如何使用，只有兩處要詳細說明：</p>
+<ul>
+<li><p><code>x</code>設定x軸的標題，所以我們能以此類推，<code>y</code>就是設定y軸的標題。因為我選擇直接將縣市飆在線段旁邊，而且我認為不用加y軸標題也能知道他們代表不同縣市，所以沒有設定y軸標題。</p></li>
+<li><p>在<code>caption</code>中，設定了兩段文字，但目前只顯示了其中一個，我們在之後會調整<code>caption</code>的位置，那時兩段文字才會都顯示出來。</p></li>
+</ul>
+</section>
+<section id="調整圖形的樣式" class="level2">
+<h2 class="anchored" data-anchor-id="調整圖形的樣式">調整圖形的樣式</h2>
+<p>繪製圖形的最後一步是調整圖形中各要素的呈現方式。</p>
+<p><br></p>
+<section id="調整兩軸的文字及標記" class="level3">
+<h3 class="anchored" data-anchor-id="調整兩軸的文字及標記">調整兩軸的文字及標記</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>p <span class="ot">&lt;-</span> p <span class="sc">+</span> <span class="fu">theme</span>(</span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">axis.title.y =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">axis.title.x =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">12</span>),</span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">10</span>),</span>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">axis.text.y =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">axis.ticks.length =</span> <span class="fu">unit</span>(<span class="dv">0</span>, <span class="st">"cm"</span>)</span>
+<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb25-8"><a href="#cb25-8" aria-hidden="true" tabindex="-1"></a>p</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="身心障礙人數_files/figure-html/unnamed-chunk-20-1.png" class="img-fluid figure-img" width="3000"></p>
+</figure>
+</div>
+</div>
+</div>
+<ul>
+<li><p><code>axis</code>開頭的函數是用來調整x軸及y軸相關的要素的。</p></li>
+<li><p><code>axis.title</code>是用來設定軸的標題：</p>
+<ul>
+<li><p><code>axis.title.y = element_blank()</code>是將y軸的標題拿掉，本來是自動設定的factor(region, region_level)。</p></li>
+<li><p><code>axis.title.x = element_text(size = 8)</code>則是設定x軸標題的大小，也就是「身心障礙者佔人口數比率（％）」這段文字的大小。</p></li>
+</ul></li>
+<li><p><code>axis.text</code>則是設定軸上的文字，也就是縣市和比率的數值：</p>
+<ul>
+<li>因為我們已經將縣市標記在線段旁邊了，所以拿掉x軸上標記縣市的文字</li>
+</ul></li>
+<li><p><code>axis.ticks.length</code>則是設定軸文字旁標記的那個小小線段的長度，我要拿掉它們，所以將長度設定為0。</p>
+<p><br></p></li>
+</ul>
+</section>
+<section id="調整圖示" class="level3">
+<h3 class="anchored" data-anchor-id="調整圖示">調整圖示</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>p <span class="ot">&lt;-</span> p <span class="sc">+</span> <span class="fu">theme</span>(</span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>        <span class="at">legend.text =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">10</span>),</span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>        <span class="at">legend.position =</span> <span class="st">"inside"</span>,</span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>        <span class="at">legend.position.inside =</span> <span class="fu">c</span>(.<span class="dv">9</span>, .<span class="dv">9</span>),</span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a>        <span class="at">legend.background =</span> <span class="fu">element_rect</span>(<span class="at">fill =</span> <span class="st">"transparent"</span>, </span>
+<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a>                                         <span class="at">linewidth =</span> .<span class="dv">4</span>,</span>
+<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a>                                         <span class="at">color =</span> <span class="st">"#071952"</span>),</span>
+<span id="cb26-8"><a href="#cb26-8" aria-hidden="true" tabindex="-1"></a>        <span class="at">legend.title =</span> <span class="fu">element_blank</span>()</span>
+<span id="cb26-9"><a href="#cb26-9" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb26-10"><a href="#cb26-10" aria-hidden="true" tabindex="-1"></a>p</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="身心障礙人數_files/figure-html/unnamed-chunk-21-1.png" class="img-fluid figure-img" width="3000"></p>
+</figure>
+</div>
+</div>
+</div>
+<ul>
+<li><p><code>legend.position</code>和<code>legend.position.inside</code>是用來設定圖示的位置，將其設定在圖形的裡面，並調整到一個合適的位置。</p></li>
+<li><p><code>legend.background</code>是用來設定圖是這個方框的，因為是長方形，所以用<code>element_rect</code>。</p></li>
+<li><p><code>legend.title = element_blank()</code>則是拿掉圖示的標題。</p></li>
+</ul>
+<p><br></p>
+</section>
+<section id="調整格線" class="level3">
+<h3 class="anchored" data-anchor-id="調整格線">調整格線</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>p <span class="ot">&lt;-</span> p <span class="sc">+</span> <span class="fu">theme</span>(</span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>        <span class="at">panel.grid.minor =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>        <span class="at">panel.grid.major.y =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>        <span class="at">panel.grid.major.x =</span> <span class="fu">element_line</span>(<span class="at">linetype =</span> <span class="dv">2</span>)</span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a>p</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="身心障礙人數_files/figure-html/unnamed-chunk-22-1.png" class="img-fluid figure-img" width="3000"></p>
+</figure>
+</div>
+</div>
+</div>
+<ul>
+<li><code>panel</code>指的是中間繪圖區的部分，格線要從這裡調整，基本上這裡做的調整是指保留垂直的格線，並設定為虛線。</li>
+</ul>
+<p><br></p>
+</section>
+<section id="調整標題註解的樣式和圖片的邊框" class="level3">
+<h3 class="anchored" data-anchor-id="調整標題註解的樣式和圖片的邊框">調整標題、註解的樣式和圖片的邊框</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>p <span class="ot">&lt;-</span> p <span class="sc">+</span> <span class="fu">theme</span>(</span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>    <span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">22</span>, </span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>                              <span class="at">color =</span> <span class="st">"#071952"</span>, </span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>                              <span class="at">face =</span> <span class="st">"bold"</span>,</span>
+<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a>                              <span class="at">margin =</span> <span class="fu">margin</span>(<span class="at">t =</span> <span class="dv">0</span>, <span class="at">b =</span> <span class="dv">2</span>)),</span>
+<span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">plot.subtitle =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">16</span>, <span class="at">margin =</span> <span class="fu">margin</span>(<span class="at">b =</span> <span class="dv">5</span>)),</span>
+<span id="cb28-7"><a href="#cb28-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">plot.caption =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">10</span>, <span class="at">hjust =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">1</span>)),</span>
+<span id="cb28-8"><a href="#cb28-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">plot.margin =</span> <span class="fu">unit</span>(<span class="fu">c</span>(<span class="fl">0.5</span>, <span class="fl">0.5</span>, <span class="fl">0.5</span>, <span class="fl">0.5</span>), <span class="st">"cm"</span>),</span>
+<span id="cb28-9"><a href="#cb28-9" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb28-10"><a href="#cb28-10" aria-hidden="true" tabindex="-1"></a>p</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="身心障礙人數_files/figure-html/unnamed-chunk-23-1.png" class="img-fluid figure-img" width="3000"></p>
+</figure>
+</div>
+</div>
+</div>
+<ul>
+<li><p><code>plot</code>指的是整個圖片，所以標題、註解以及邊界都屬於這裡。</p>
+<ul>
+<li><p><code>element_text</code>中的<code>margin</code>可以在文字的周圍加上邊界，<code>margin()</code>函數中可以設定<code>t</code>、<code>r</code>、<code>b</code>、<code>l</code>四個參數，分別為top、right、bottom、left，可以用trouble這個字來記憶順序。</p></li>
+<li><p>在<code>plot.catption</code>中，<code>hjust</code>是用來調整水平位置的，因為我們的caption有兩個，所以給它兩個值，分別代表放在最左邊以及最右邊。</p></li>
+</ul></li>
+</ul>
+<p>如此一來，我們就得到了目標的圖表了！</p>
+<p><br></p>
+<p>至此，這次的旅程就結束了，歡迎你下次再跟我一起踏上視覺化之旅。</p>
+<p>以下是完整的資料處理和視覺化的code</p>
+<p>資料處理：</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readxl)</span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(writexl)</span>
+<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Helper functions</span></span>
+<span id="cb29-6"><a href="#cb29-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-7"><a href="#cb29-7" aria-hidden="true" tabindex="-1"></a><span class="do">## tidying the data</span></span>
+<span id="cb29-8"><a href="#cb29-8" aria-hidden="true" tabindex="-1"></a>get_gender_longer <span class="ot">&lt;-</span> <span class="cf">function</span>(df){</span>
+<span id="cb29-9"><a href="#cb29-9" aria-hidden="true" tabindex="-1"></a>    df <span class="ot">&lt;-</span> df <span class="sc">|&gt;</span> <span class="fu">pivot_longer</span>(</span>
+<span id="cb29-10"><a href="#cb29-10" aria-hidden="true" tabindex="-1"></a>        <span class="at">cols =</span> <span class="fu">c</span>(<span class="st">"total"</span>, <span class="st">"male"</span>, <span class="st">"female"</span>),</span>
+<span id="cb29-11"><a href="#cb29-11" aria-hidden="true" tabindex="-1"></a>        <span class="at">names_to =</span> <span class="st">"gender"</span>,</span>
+<span id="cb29-12"><a href="#cb29-12" aria-hidden="true" tabindex="-1"></a>        <span class="at">values_to =</span> <span class="st">"ratio"</span>)</span>
+<span id="cb29-13"><a href="#cb29-13" aria-hidden="true" tabindex="-1"></a>    <span class="fu">return</span>(df)</span>
+<span id="cb29-14"><a href="#cb29-14" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb29-15"><a href="#cb29-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-16"><a href="#cb29-16" aria-hidden="true" tabindex="-1"></a><span class="do">## adjusting the format of the region data</span></span>
+<span id="cb29-17"><a href="#cb29-17" aria-hidden="true" tabindex="-1"></a>adjusting_format_after2021 <span class="ot">&lt;-</span> <span class="cf">function</span>(df, y){</span>
+<span id="cb29-18"><a href="#cb29-18" aria-hidden="true" tabindex="-1"></a>    df <span class="ot">&lt;-</span> df <span class="sc">|&gt;</span> <span class="fu">separate_wider_delim</span>(</span>
+<span id="cb29-19"><a href="#cb29-19" aria-hidden="true" tabindex="-1"></a>        <span class="at">cols =</span> region, </span>
+<span id="cb29-20"><a href="#cb29-20" aria-hidden="true" tabindex="-1"></a>        <span class="at">delim =</span> <span class="st">" "</span>,</span>
+<span id="cb29-21"><a href="#cb29-21" aria-hidden="true" tabindex="-1"></a>        <span class="at">names =</span> <span class="fu">c</span>(<span class="st">"region"</span>, <span class="st">"2"</span>),</span>
+<span id="cb29-22"><a href="#cb29-22" aria-hidden="true" tabindex="-1"></a>        <span class="at">too_many =</span> <span class="st">"drop"</span></span>
+<span id="cb29-23"><a href="#cb29-23" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">|&gt;</span> </span>
+<span id="cb29-24"><a href="#cb29-24" aria-hidden="true" tabindex="-1"></a>        <span class="fu">select</span>(<span class="fu">c</span>(<span class="sc">-</span><span class="dv">2</span>))<span class="sc">|&gt;</span> </span>
+<span id="cb29-25"><a href="#cb29-25" aria-hidden="true" tabindex="-1"></a>        <span class="fu">mutate</span>(</span>
+<span id="cb29-26"><a href="#cb29-26" aria-hidden="true" tabindex="-1"></a>            <span class="at">region =</span> <span class="fu">if_else</span>(region <span class="sc">==</span> <span class="st">"總計"</span>, <span class="st">"全國"</span>, region)</span>
+<span id="cb29-27"><a href="#cb29-27" aria-hidden="true" tabindex="-1"></a>        ) <span class="sc">|&gt;</span> </span>
+<span id="cb29-28"><a href="#cb29-28" aria-hidden="true" tabindex="-1"></a>        <span class="fu">mutate</span>(</span>
+<span id="cb29-29"><a href="#cb29-29" aria-hidden="true" tabindex="-1"></a>            <span class="at">year =</span> y</span>
+<span id="cb29-30"><a href="#cb29-30" aria-hidden="true" tabindex="-1"></a>        ) <span class="sc">|&gt;</span> </span>
+<span id="cb29-31"><a href="#cb29-31" aria-hidden="true" tabindex="-1"></a>        <span class="fu">select</span>(</span>
+<span id="cb29-32"><a href="#cb29-32" aria-hidden="true" tabindex="-1"></a>            year, region, gender, ratio</span>
+<span id="cb29-33"><a href="#cb29-33" aria-hidden="true" tabindex="-1"></a>        )</span>
+<span id="cb29-34"><a href="#cb29-34" aria-hidden="true" tabindex="-1"></a>    <span class="fu">return</span>(df)</span>
+<span id="cb29-35"><a href="#cb29-35" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb29-36"><a href="#cb29-36" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-37"><a href="#cb29-37" aria-hidden="true" tabindex="-1"></a>adjusting_format_before2020 <span class="ot">&lt;-</span> <span class="cf">function</span>(df, y){</span>
+<span id="cb29-38"><a href="#cb29-38" aria-hidden="true" tabindex="-1"></a>    df <span class="ot">&lt;-</span> df <span class="sc">|&gt;</span> <span class="fu">separate_wider_position</span>(</span>
+<span id="cb29-39"><a href="#cb29-39" aria-hidden="true" tabindex="-1"></a>        <span class="at">cols =</span> region, </span>
+<span id="cb29-40"><a href="#cb29-40" aria-hidden="true" tabindex="-1"></a>        <span class="at">widths =</span> <span class="fu">c</span>(<span class="at">region =</span> <span class="dv">3</span>, <span class="dv">1</span>),</span>
+<span id="cb29-41"><a href="#cb29-41" aria-hidden="true" tabindex="-1"></a>        <span class="at">too_many =</span> <span class="st">"drop"</span></span>
+<span id="cb29-42"><a href="#cb29-42" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">|&gt;</span> </span>
+<span id="cb29-43"><a href="#cb29-43" aria-hidden="true" tabindex="-1"></a>        <span class="fu">mutate</span>(</span>
+<span id="cb29-44"><a href="#cb29-44" aria-hidden="true" tabindex="-1"></a>            <span class="at">region =</span> <span class="fu">if_else</span>(region <span class="sc">==</span> <span class="st">"總計T"</span>, <span class="st">"全國"</span>, region)</span>
+<span id="cb29-45"><a href="#cb29-45" aria-hidden="true" tabindex="-1"></a>        ) <span class="sc">|&gt;</span> </span>
+<span id="cb29-46"><a href="#cb29-46" aria-hidden="true" tabindex="-1"></a>        <span class="fu">mutate</span>(</span>
+<span id="cb29-47"><a href="#cb29-47" aria-hidden="true" tabindex="-1"></a>            <span class="at">year =</span> y</span>
+<span id="cb29-48"><a href="#cb29-48" aria-hidden="true" tabindex="-1"></a>        ) <span class="sc">|&gt;</span> </span>
+<span id="cb29-49"><a href="#cb29-49" aria-hidden="true" tabindex="-1"></a>        <span class="fu">select</span>(</span>
+<span id="cb29-50"><a href="#cb29-50" aria-hidden="true" tabindex="-1"></a>            year, region, gender, ratio</span>
+<span id="cb29-51"><a href="#cb29-51" aria-hidden="true" tabindex="-1"></a>        )</span>
+<span id="cb29-52"><a href="#cb29-52" aria-hidden="true" tabindex="-1"></a>    <span class="fu">return</span>(df)</span>
+<span id="cb29-53"><a href="#cb29-53" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb29-54"><a href="#cb29-54" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-55"><a href="#cb29-55" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-56"><a href="#cb29-56" aria-hidden="true" tabindex="-1"></a><span class="do">## get the ratio data from 2021 to 2023</span></span>
+<span id="cb29-57"><a href="#cb29-57" aria-hidden="true" tabindex="-1"></a>get_ratio_after2021 <span class="ot">&lt;-</span> <span class="cf">function</span>(y){</span>
+<span id="cb29-58"><a href="#cb29-58" aria-hidden="true" tabindex="-1"></a>    <span class="co"># read the data from an excel file</span></span>
+<span id="cb29-59"><a href="#cb29-59" aria-hidden="true" tabindex="-1"></a>    df <span class="ot">&lt;-</span> <span class="fu">read_xlsx</span>(<span class="st">"data/2.3.1身心障礙者人數按類別及縣市別分.xlsx"</span>, </span>
+<span id="cb29-60"><a href="#cb29-60" aria-hidden="true" tabindex="-1"></a>                    <span class="at">sheet =</span> y,</span>
+<span id="cb29-61"><a href="#cb29-61" aria-hidden="true" tabindex="-1"></a>                    <span class="at">range =</span> <span class="fu">anchored</span>(<span class="st">"A8"</span>, <span class="at">dim =</span> <span class="fu">c</span>(<span class="dv">23</span>, <span class="dv">17</span>)),</span>
+<span id="cb29-62"><a href="#cb29-62" aria-hidden="true" tabindex="-1"></a>                    <span class="at">col_names =</span> <span class="fu">as.character</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">17</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb29-63"><a href="#cb29-63" aria-hidden="true" tabindex="-1"></a>        <span class="fu">select</span>(<span class="fu">c</span>(<span class="fu">c</span>(<span class="st">"1"</span>, <span class="st">"15"</span>,<span class="st">"16"</span>, <span class="st">"17"</span>)))  <span class="sc">|&gt;</span> <span class="co"># selecting columns we want</span></span>
+<span id="cb29-64"><a href="#cb29-64" aria-hidden="true" tabindex="-1"></a>        <span class="fu">rename</span>(<span class="st">"region"</span> <span class="ot">=</span> <span class="st">"1"</span>,</span>
+<span id="cb29-65"><a href="#cb29-65" aria-hidden="true" tabindex="-1"></a>               <span class="st">"total"</span> <span class="ot">=</span> <span class="st">"15"</span>,</span>
+<span id="cb29-66"><a href="#cb29-66" aria-hidden="true" tabindex="-1"></a>               <span class="st">"male"</span> <span class="ot">=</span> <span class="st">"16"</span>,</span>
+<span id="cb29-67"><a href="#cb29-67" aria-hidden="true" tabindex="-1"></a>               <span class="st">"female"</span> <span class="ot">=</span> <span class="st">"17"</span>) <span class="co"># rename the columns</span></span>
+<span id="cb29-68"><a href="#cb29-68" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb29-69"><a href="#cb29-69" aria-hidden="true" tabindex="-1"></a>    <span class="co"># tidying the data</span></span>
+<span id="cb29-70"><a href="#cb29-70" aria-hidden="true" tabindex="-1"></a>    df <span class="ot">&lt;-</span> <span class="fu">get_gender_longer</span>(df)</span>
+<span id="cb29-71"><a href="#cb29-71" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb29-72"><a href="#cb29-72" aria-hidden="true" tabindex="-1"></a>    <span class="co"># adjusting the format of the region data</span></span>
+<span id="cb29-73"><a href="#cb29-73" aria-hidden="true" tabindex="-1"></a>    df <span class="ot">&lt;-</span> <span class="fu">adjusting_format_after2021</span>(df, y)</span>
+<span id="cb29-74"><a href="#cb29-74" aria-hidden="true" tabindex="-1"></a>    <span class="fu">return</span>(df)</span>
+<span id="cb29-75"><a href="#cb29-75" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb29-76"><a href="#cb29-76" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-77"><a href="#cb29-77" aria-hidden="true" tabindex="-1"></a><span class="do">## get the ratio data from 2012 to 2021</span></span>
+<span id="cb29-78"><a href="#cb29-78" aria-hidden="true" tabindex="-1"></a>get_ratio_before2020 <span class="ot">&lt;-</span> <span class="cf">function</span>(y){</span>
+<span id="cb29-79"><a href="#cb29-79" aria-hidden="true" tabindex="-1"></a>    <span class="co"># read the data from an excel file</span></span>
+<span id="cb29-80"><a href="#cb29-80" aria-hidden="true" tabindex="-1"></a>    df <span class="ot">&lt;-</span> <span class="fu">read_xlsx</span>(<span class="st">"data/2.3.1身心障礙者人數按類別及縣市別分.xlsx"</span>, </span>
+<span id="cb29-81"><a href="#cb29-81" aria-hidden="true" tabindex="-1"></a>                    <span class="at">sheet =</span> y,</span>
+<span id="cb29-82"><a href="#cb29-82" aria-hidden="true" tabindex="-1"></a>                    <span class="at">range =</span> <span class="fu">anchored</span>(<span class="st">"A8"</span>, <span class="at">dim =</span> <span class="fu">c</span>(<span class="dv">23</span>, <span class="dv">24</span>)),</span>
+<span id="cb29-83"><a href="#cb29-83" aria-hidden="true" tabindex="-1"></a>                    <span class="at">col_names =</span> <span class="fu">as.character</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">24</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb29-84"><a href="#cb29-84" aria-hidden="true" tabindex="-1"></a>        <span class="fu">select</span>(<span class="fu">c</span>(<span class="fu">c</span>(<span class="st">"1"</span>, <span class="st">"22"</span>,<span class="st">"23"</span>, <span class="st">"24"</span>)))  <span class="sc">|&gt;</span> <span class="co"># selecting columns we want</span></span>
+<span id="cb29-85"><a href="#cb29-85" aria-hidden="true" tabindex="-1"></a>        <span class="fu">rename</span>(<span class="st">"region"</span> <span class="ot">=</span> <span class="st">"1"</span>,</span>
+<span id="cb29-86"><a href="#cb29-86" aria-hidden="true" tabindex="-1"></a>               <span class="st">"total"</span> <span class="ot">=</span> <span class="st">"22"</span>,</span>
+<span id="cb29-87"><a href="#cb29-87" aria-hidden="true" tabindex="-1"></a>               <span class="st">"male"</span> <span class="ot">=</span> <span class="st">"23"</span>,</span>
+<span id="cb29-88"><a href="#cb29-88" aria-hidden="true" tabindex="-1"></a>               <span class="st">"female"</span> <span class="ot">=</span> <span class="st">"24"</span>) <span class="co"># rename the columns</span></span>
+<span id="cb29-89"><a href="#cb29-89" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb29-90"><a href="#cb29-90" aria-hidden="true" tabindex="-1"></a>    <span class="co"># tidying the data</span></span>
+<span id="cb29-91"><a href="#cb29-91" aria-hidden="true" tabindex="-1"></a>    df <span class="ot">&lt;-</span> <span class="fu">get_gender_longer</span>(df)</span>
+<span id="cb29-92"><a href="#cb29-92" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb29-93"><a href="#cb29-93" aria-hidden="true" tabindex="-1"></a>    <span class="co"># adjusting the format of the region data</span></span>
+<span id="cb29-94"><a href="#cb29-94" aria-hidden="true" tabindex="-1"></a>    df <span class="ot">&lt;-</span> <span class="fu">adjusting_format_before2020</span>(df, y)</span>
+<span id="cb29-95"><a href="#cb29-95" aria-hidden="true" tabindex="-1"></a>    <span class="fu">return</span>(df)</span>
+<span id="cb29-96"><a href="#cb29-96" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb29-97"><a href="#cb29-97" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-98"><a href="#cb29-98" aria-hidden="true" tabindex="-1"></a><span class="co"># main section</span></span>
+<span id="cb29-99"><a href="#cb29-99" aria-hidden="true" tabindex="-1"></a>df_all <span class="ot">&lt;-</span> <span class="cn">NA</span></span>
+<span id="cb29-100"><a href="#cb29-100" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-101"><a href="#cb29-101" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(y <span class="cf">in</span> <span class="dv">2012</span><span class="sc">:</span><span class="dv">2023</span>){</span>
+<span id="cb29-102"><a href="#cb29-102" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (y <span class="sc">&lt;=</span> <span class="dv">2020</span>) {</span>
+<span id="cb29-103"><a href="#cb29-103" aria-hidden="true" tabindex="-1"></a>        df <span class="ot">&lt;-</span> <span class="fu">get_ratio_before2020</span>(<span class="fu">as.character</span>(y))</span>
+<span id="cb29-104"><a href="#cb29-104" aria-hidden="true" tabindex="-1"></a>    } <span class="cf">else</span> {</span>
+<span id="cb29-105"><a href="#cb29-105" aria-hidden="true" tabindex="-1"></a>        df <span class="ot">&lt;-</span> <span class="fu">get_ratio_after2021</span>(<span class="fu">as.character</span>(y))</span>
+<span id="cb29-106"><a href="#cb29-106" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb29-107"><a href="#cb29-107" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb29-108"><a href="#cb29-108" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (<span class="fu">is_tibble</span>(df_all)) {</span>
+<span id="cb29-109"><a href="#cb29-109" aria-hidden="true" tabindex="-1"></a>        df_all <span class="ot">&lt;-</span> <span class="fu">rbind</span>(df_all, df)</span>
+<span id="cb29-110"><a href="#cb29-110" aria-hidden="true" tabindex="-1"></a>    } <span class="cf">else</span> {</span>
+<span id="cb29-111"><a href="#cb29-111" aria-hidden="true" tabindex="-1"></a>        df_all <span class="ot">&lt;-</span> df</span>
+<span id="cb29-112"><a href="#cb29-112" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb29-113"><a href="#cb29-113" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb29-114"><a href="#cb29-114" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-115"><a href="#cb29-115" aria-hidden="true" tabindex="-1"></a><span class="co">#write_csv(df_all, "data/佔總人數比率.csv")</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<p>視覺化：</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a><span class="co">#read data from a csv file and rename the columns</span></span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"data/佔總人數比率.csv"</span>,</span>
+<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a>               <span class="at">show_col_types =</span> <span class="cn">FALSE</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb30-6"><a href="#cb30-6" aria-hidden="true" tabindex="-1"></a>        <span class="fu">filter</span>(year <span class="sc">==</span> <span class="st">"2023"</span>,</span>
+<span id="cb30-7"><a href="#cb30-7" aria-hidden="true" tabindex="-1"></a>               gender <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"male"</span>, <span class="st">"female"</span>))</span>
+<span id="cb30-8"><a href="#cb30-8" aria-hidden="true" tabindex="-1"></a>   </span>
+<span id="cb30-9"><a href="#cb30-9" aria-hidden="true" tabindex="-1"></a>region_level <span class="ot">&lt;-</span> df <span class="sc">|&gt;</span> </span>
+<span id="cb30-10"><a href="#cb30-10" aria-hidden="true" tabindex="-1"></a>    <span class="fu">select</span>(region) <span class="sc">|&gt;</span> </span>
+<span id="cb30-11"><a href="#cb30-11" aria-hidden="true" tabindex="-1"></a>    <span class="fu">distinct</span>(region) <span class="sc">|&gt;</span> </span>
+<span id="cb30-12"><a href="#cb30-12" aria-hidden="true" tabindex="-1"></a>    <span class="fu">pull</span>() <span class="sc">|&gt;</span> </span>
+<span id="cb30-13"><a href="#cb30-13" aria-hidden="true" tabindex="-1"></a>    <span class="fu">rev</span>()</span>
+<span id="cb30-14"><a href="#cb30-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-15"><a href="#cb30-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-16"><a href="#cb30-16" aria-hidden="true" tabindex="-1"></a>p <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(df, <span class="fu">aes</span>(<span class="at">x =</span> ratio, <span class="at">y =</span> <span class="fu">factor</span>(region, region_level))) <span class="sc">+</span></span>
+<span id="cb30-17"><a href="#cb30-17" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">group =</span> region), <span class="at">size =</span> <span class="fl">1.5</span>, <span class="at">color =</span> <span class="st">"#758694"</span>) <span class="sc">+</span></span>
+<span id="cb30-18"><a href="#cb30-18" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">color =</span> gender), <span class="at">size =</span> <span class="dv">5</span>) <span class="sc">+</span></span>
+<span id="cb30-19"><a href="#cb30-19" aria-hidden="true" tabindex="-1"></a>    <span class="fu">labs</span>(</span>
+<span id="cb30-20"><a href="#cb30-20" aria-hidden="true" tabindex="-1"></a>        <span class="at">title =</span> <span class="st">"各縣市身心障礙者佔人口數比率"</span>,</span>
+<span id="cb30-21"><a href="#cb30-21" aria-hidden="true" tabindex="-1"></a>        <span class="at">subtitle =</span> <span class="st">"各縣市男性比率皆大於女性，其中台東縣男女間差距最大，澎湖縣則最小"</span>,</span>
+<span id="cb30-22"><a href="#cb30-22" aria-hidden="true" tabindex="-1"></a>        <span class="at">x =</span> <span class="st">"身心障礙者佔人口數比率（％）"</span>,</span>
+<span id="cb30-23"><a href="#cb30-23" aria-hidden="true" tabindex="-1"></a>        <span class="at">caption =</span> <span class="fu">c</span>(<span class="st">"註：男性比率為男性身心障礙人口數除以男性總人口數，女性比率算法以此類推"</span>,</span>
+<span id="cb30-24"><a href="#cb30-24" aria-hidden="true" tabindex="-1"></a>                    <span class="st">"資料時間：2023年底．資料來源：衛生福利部統計處"</span>),</span>
+<span id="cb30-25"><a href="#cb30-25" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">+</span></span>
+<span id="cb30-26"><a href="#cb30-26" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scale_x_continuous</span>(<span class="at">labels =</span> scales<span class="sc">::</span><span class="fu">label_number</span>(<span class="at">accuracy =</span> <span class="fl">0.1</span>),</span>
+<span id="cb30-27"><a href="#cb30-27" aria-hidden="true" tabindex="-1"></a>                       <span class="at">breaks =</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">10</span>, <span class="dv">1</span>)) <span class="sc">+</span></span>
+<span id="cb30-28"><a href="#cb30-28" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scale_color_discrete</span>(<span class="at">labels =</span> <span class="fu">c</span>(<span class="st">"女性"</span>, <span class="st">"男性"</span>), </span>
+<span id="cb30-29"><a href="#cb30-29" aria-hidden="true" tabindex="-1"></a>                         <span class="at">type =</span> <span class="fu">c</span>(<span class="st">"#E76F51"</span>, <span class="st">"#00B8A9"</span>)) <span class="sc">+</span></span>
+<span id="cb30-30"><a href="#cb30-30" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme</span>(</span>
+<span id="cb30-31"><a href="#cb30-31" aria-hidden="true" tabindex="-1"></a>        <span class="at">text =</span> <span class="fu">element_text</span>(<span class="at">family =</span> <span class="st">"Noto Sans TC"</span>, <span class="at">color =</span> <span class="st">"#364F6B"</span>),</span>
+<span id="cb30-32"><a href="#cb30-32" aria-hidden="true" tabindex="-1"></a>        <span class="co"># axis</span></span>
+<span id="cb30-33"><a href="#cb30-33" aria-hidden="true" tabindex="-1"></a>        <span class="at">axis.title.y =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb30-34"><a href="#cb30-34" aria-hidden="true" tabindex="-1"></a>        <span class="at">axis.title =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">16</span>),</span>
+<span id="cb30-35"><a href="#cb30-35" aria-hidden="true" tabindex="-1"></a>        <span class="at">axis.text =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">14</span>),</span>
+<span id="cb30-36"><a href="#cb30-36" aria-hidden="true" tabindex="-1"></a>        <span class="at">axis.text.y =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb30-37"><a href="#cb30-37" aria-hidden="true" tabindex="-1"></a>        <span class="at">axis.ticks.length =</span> <span class="fu">unit</span>(<span class="dv">0</span>, <span class="st">"cm"</span>),</span>
+<span id="cb30-38"><a href="#cb30-38" aria-hidden="true" tabindex="-1"></a>        <span class="co">#plot</span></span>
+<span id="cb30-39"><a href="#cb30-39" aria-hidden="true" tabindex="-1"></a>        <span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">27</span>, </span>
+<span id="cb30-40"><a href="#cb30-40" aria-hidden="true" tabindex="-1"></a>                                  <span class="at">color =</span> <span class="st">"#071952"</span>, </span>
+<span id="cb30-41"><a href="#cb30-41" aria-hidden="true" tabindex="-1"></a>                                  <span class="at">face =</span> <span class="st">"bold"</span>,</span>
+<span id="cb30-42"><a href="#cb30-42" aria-hidden="true" tabindex="-1"></a>                                  <span class="at">margin =</span> <span class="fu">margin</span>(<span class="at">t =</span> <span class="dv">5</span>, <span class="at">b =</span> <span class="dv">5</span>)),</span>
+<span id="cb30-43"><a href="#cb30-43" aria-hidden="true" tabindex="-1"></a>        <span class="at">plot.subtitle =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">22</span>, <span class="at">margin =</span> <span class="fu">margin</span>(<span class="at">b =</span> <span class="dv">15</span>)),</span>
+<span id="cb30-44"><a href="#cb30-44" aria-hidden="true" tabindex="-1"></a>        <span class="at">plot.caption =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">12</span>, <span class="at">hjust =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">1</span>)),</span>
+<span id="cb30-45"><a href="#cb30-45" aria-hidden="true" tabindex="-1"></a>        <span class="at">plot.margin =</span> <span class="fu">unit</span>(<span class="fu">c</span>(<span class="fl">1.2</span>,<span class="fl">1.2</span>,<span class="fl">1.2</span>,<span class="fl">1.2</span>), <span class="st">"cm"</span>),</span>
+<span id="cb30-46"><a href="#cb30-46" aria-hidden="true" tabindex="-1"></a>        <span class="co">#legend</span></span>
+<span id="cb30-47"><a href="#cb30-47" aria-hidden="true" tabindex="-1"></a>        <span class="at">legend.text =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">14</span>),</span>
+<span id="cb30-48"><a href="#cb30-48" aria-hidden="true" tabindex="-1"></a>        <span class="at">legend.position =</span> <span class="fu">c</span>(.<span class="dv">9</span>, .<span class="dv">92</span>),</span>
+<span id="cb30-49"><a href="#cb30-49" aria-hidden="true" tabindex="-1"></a>        <span class="at">legend.background =</span> <span class="fu">element_rect</span>(<span class="at">fill =</span> <span class="st">"transparent"</span>, </span>
+<span id="cb30-50"><a href="#cb30-50" aria-hidden="true" tabindex="-1"></a>                                         <span class="at">linewidth =</span> .<span class="dv">4</span>,</span>
+<span id="cb30-51"><a href="#cb30-51" aria-hidden="true" tabindex="-1"></a>                                         <span class="at">color =</span> <span class="st">"#071952"</span>),</span>
+<span id="cb30-52"><a href="#cb30-52" aria-hidden="true" tabindex="-1"></a>        <span class="at">legend.title =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb30-53"><a href="#cb30-53" aria-hidden="true" tabindex="-1"></a>        <span class="co">#panel</span></span>
+<span id="cb30-54"><a href="#cb30-54" aria-hidden="true" tabindex="-1"></a>        <span class="at">panel.grid.minor =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb30-55"><a href="#cb30-55" aria-hidden="true" tabindex="-1"></a>        <span class="at">panel.grid.major.y =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb30-56"><a href="#cb30-56" aria-hidden="true" tabindex="-1"></a>        <span class="at">panel.grid.major.x =</span> <span class="fu">element_line</span>(<span class="at">linetype =</span> <span class="dv">2</span>)</span>
+<span id="cb30-57"><a href="#cb30-57" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb30-58"><a href="#cb30-58" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-59"><a href="#cb30-59" aria-hidden="true" tabindex="-1"></a>loca <span class="ot">&lt;-</span> df <span class="sc">|&gt;</span> </span>
+<span id="cb30-60"><a href="#cb30-60" aria-hidden="true" tabindex="-1"></a>    <span class="fu">filter</span>(</span>
+<span id="cb30-61"><a href="#cb30-61" aria-hidden="true" tabindex="-1"></a>        gender <span class="sc">==</span> <span class="st">"female"</span></span>
+<span id="cb30-62"><a href="#cb30-62" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">|&gt;</span> </span>
+<span id="cb30-63"><a href="#cb30-63" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(</span>
+<span id="cb30-64"><a href="#cb30-64" aria-hidden="true" tabindex="-1"></a>        <span class="at">ratio =</span> ratio <span class="sc">-</span> .<span class="dv">2</span></span>
+<span id="cb30-65"><a href="#cb30-65" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb30-66"><a href="#cb30-66" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-67"><a href="#cb30-67" aria-hidden="true" tabindex="-1"></a>p <span class="ot">&lt;-</span> p <span class="sc">+</span> <span class="fu">geom_text</span>(<span class="at">data =</span> loca, </span>
+<span id="cb30-68"><a href="#cb30-68" aria-hidden="true" tabindex="-1"></a>              <span class="fu">aes</span>(<span class="at">y =</span> region, <span class="at">x =</span> ratio, <span class="at">label =</span> region, <span class="at">family =</span> <span class="st">"Noto Sans TC"</span>), </span>
+<span id="cb30-69"><a href="#cb30-69" aria-hidden="true" tabindex="-1"></a>              <span class="at">size=</span><span class="dv">5</span>)</span>
+<span id="cb30-70"><a href="#cb30-70" aria-hidden="true" tabindex="-1"></a>p</span>
+<span id="cb30-71"><a href="#cb30-71" aria-hidden="true" tabindex="-1"></a><span class="co"># ggsave("身心障礙者佔總人口數比率.png",</span></span>
+<span id="cb30-72"><a href="#cb30-72" aria-hidden="true" tabindex="-1"></a><span class="co">#        path = "img/",</span></span>
+<span id="cb30-73"><a href="#cb30-73" aria-hidden="true" tabindex="-1"></a><span class="co">#        width = 16,</span></span>
+<span id="cb30-74"><a href="#cb30-74" aria-hidden="true" tabindex="-1"></a><span class="co">#        height = 10,</span></span>
+<span id="cb30-75"><a href="#cb30-75" aria-hidden="true" tabindex="-1"></a><span class="co">#        dpi = 400)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+
+
+</section>
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const onCopySuccess = function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
+  });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    // For code content inside modals, clipBoardJS needs to be initialized with a container option
+    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+<script>var lightboxQuarto = GLightbox({"openEffect":"zoom","descPosition":"bottom","closeEffect":"zoom","selector":".lightbox","loop":false});
+(function() {
+  let previousOnload = window.onload;
+  window.onload = () => {
+    if (previousOnload) {
+      previousOnload();
+    }
+    lightboxQuarto.on('slide_before_load', (data) => {
+      const { slideIndex, slideNode, slideConfig, player, trigger } = data;
+      const href = trigger.getAttribute('href');
+      if (href !== null) {
+        const imgEl = window.document.querySelector(`a[href="${href}"] img`);
+        if (imgEl !== null) {
+          const srcAttr = imgEl.getAttribute("src");
+          if (srcAttr && srcAttr.startsWith("data:")) {
+            slideConfig.href = srcAttr;
+          }
+        }
+      } 
+    });
+  
+    lightboxQuarto.on('slide_after_load', (data) => {
+      const { slideIndex, slideNode, slideConfig, player, trigger } = data;
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(slideNode);
+      }
+    });
+  
+  };
+  
+})();
+          </script>
+
+
+
+
+</body></html>
