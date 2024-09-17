@@ -32,7 +32,7 @@
     "href": "dataViz.html",
     "title": "Data Visualization 資料視覺化",
     "section": "",
-    "text": "對長條圖感到厭煩？何不試試棒棒糖圖(Lollipop chart)\n\n\n\n\n\n\nR\n\n\nggplot\n\n\n\n簡介棒棒糖圖(Lollipop chart)，告訴你什麼時候可以使用，並用ggplot2繪製它。\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n身心障礙者人數佔總人口比率-資料取得、整理及視覺化\n\n\n\n\n\n\nR\n\n\ntidyverse\n\n\nggplot\n\n\ndot plot\n\n\n\n展示如何從Excel檔案中提取資料，再以點圖(dot plot)的方式做視覺化。\n\n\n\n\n\nSep 16, 2024\n\n\n\n\n\n\n\n\n\n\n\n\n如何使用ggplot2繪製長條圖\n\n\n\n\n\n\nR\n\n\nggplot\n\n\nbarplot\n\n\n\n告訴你如何繪製基本的長條圖並調整長條的顏色、寬度及排列順序。\n\n\n\n\n\nAug 2, 2024\n\n\n\n\n\n\nNo matching items"
+    "text": "對長條圖感到厭煩？何不試試棒棒糖圖(Lollipop chart)\n\n\n\n\n\n\nR\n\n\nggplot\n\n\n\n簡介棒棒糖圖(Lollipop chart)，告訴你什麼時候可以使用，並用ggplot2繪製它。\n\n\n\n\n\nSep 17, 2024\n\n\n\n\n\n\n\n\n\n\n\n\n身心障礙者人數佔總人口比率-資料取得、整理及視覺化\n\n\n\n\n\n\nR\n\n\ntidyverse\n\n\nggplot\n\n\ndot plot\n\n\n\n展示如何從Excel檔案中提取資料，再以點圖(dot plot)的方式做視覺化。\n\n\n\n\n\nSep 16, 2024\n\n\n\n\n\n\n\n\n\n\n\n\n如何使用ggplot2繪製長條圖\n\n\n\n\n\n\nR\n\n\nggplot\n\n\nbarplot\n\n\n\n告訴你如何繪製基本的長條圖並調整長條的顏色、寬度及排列順序。\n\n\n\n\n\nAug 2, 2024\n\n\n\n\n\n\nNo matching items"
   },
   {
     "objectID": "posts/DataViz/2024-08-02_batchart/barplot.html",
