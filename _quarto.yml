@@ -19,6 +19,7 @@ format:
     css: styles.css
     toc: true
     mainfont: "Noto Sans TC"
+    include-in-header: googlefont.html
     
 editor: visual
 page-layout: full
