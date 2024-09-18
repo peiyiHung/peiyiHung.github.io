@@ -1,16 +1,2 @@
 /* css styles */
 
-$web-font-path: "https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@100..900&display=swap" !default;
-@if $web-font-path {
-  @import url($web-font-path);
-}
-
-// <uniquifier>: Use a unique and descriptive class name
-// <weight>: Use a value from 100 to 900
-
-.noto-sans-tc-notosans {
-  font-family: "Noto Sans TC", sans-serif;
-  font-optical-sizing: auto;
-  font-weight: 400;
-  font-style: normal;
-}
