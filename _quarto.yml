@@ -16,9 +16,8 @@ website:
 format:
   html:
     theme: cosmo
-    mainfont: "Noto Sans TC"
     css: styles.css
     toc: true
-
+mainfont: "Noto Sans TC"
 editor: visual
 page-layout: full
