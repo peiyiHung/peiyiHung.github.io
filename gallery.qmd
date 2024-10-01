@@ -30,7 +30,7 @@ fig-cap-location: top
 ::: {layout-ncol="3"}
 ![](DataViz_Gallery/身心障礙者人數/身心障礙者佔總人口數比率.png){group="身心障礙"}
 
-![](DataViz_Gallery/身心障礙者人數/各類別身心障礙者人數.png){group="身心障礙"}
+![](DataViz_Gallery/身心障礙者人數/各類別身心障礙者人數_modified.png){group="身心障礙"}
 
 ![](DataViz_Gallery/身心障礙者人數/高雄_各類別.png){group="身心障礙"}
 
