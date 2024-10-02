@@ -14,7 +14,7 @@ fig-cap-location: top
 ## 台電發購電能源
 
 ::: {layout-ncol="3"}
-![](DataViz_Gallery/發電能源/各類能源佔比.png){group="台電能源"}
+![](DataViz_Gallery/發電能源/能源佔比.png){group="台電能源"}
 
 ![](DataViz_Gallery/發電能源/主要能源歷年發購電量.png){group="台電能源"}
 
