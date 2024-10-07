@@ -21,6 +21,8 @@ fig-cap-location: top
 ![](DataViz_Gallery/發電能源/近年主要能源發購電量.png){group="台電能源"}
 
 ![](DataViz_Gallery/發電能源/自發電比例.png){group="台電能源"}
+
+![](DataViz_Gallery/發電能源/發電整合.png){group="台電能源"}
 :::
 
 <br>
