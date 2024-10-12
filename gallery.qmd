@@ -13,7 +13,21 @@ fig-cap-location: top
 
 ## 台電發購電能源
 
+::: {layout-ncol="2"}
+::: {#first-column}
+-   資料來源：[台灣電力公司網站](https://www.taipower.com.tw/2289/2363/2367/2372/10312/normalPost)
+-   資料時間：2023年
+:::
+
+::: {#second-column}
+-   使用工具：R, Affinity Designer
+-   圖表：長條圖，折線圖
+:::
+:::
+
 ::: {layout-ncol="3"}
+![](DataViz_Gallery/發電能源/發電整合.png){group="台電能源"}
+
 ![](DataViz_Gallery/發電能源/能源佔比.png){group="台電能源"}
 
 ![](DataViz_Gallery/發電能源/主要能源歷年發購電量.png){group="台電能源"}
@@ -22,12 +36,23 @@ fig-cap-location: top
 
 ![](DataViz_Gallery/發電能源/自發電比例.png){group="台電能源"}
 
-![](DataViz_Gallery/發電能源/發電整合.png){group="台電能源"}
 :::
 
 <br>
 
 ## 身心障礙人口數
+
+::: {layout-ncol="2"}
+::: {#first-column}
+-   資料來源：[衛生福利部統計處](https://dep.mohw.gov.tw/DOS/cp-5337-62357-113.html)
+-   資料時間：2023年底
+:::
+
+::: {#second-column}
+-   使用工具：R
+-   圖表：點圖，長條圖，折線圖
+:::
+:::
 
 ::: {layout-ncol="3"}
 ![](DataViz_Gallery/身心障礙者人數/身心障礙者佔總人口數比率.png){group="身心障礙"}
@@ -43,8 +68,8 @@ fig-cap-location: top
 
 ::: {layout-ncol="2"}
 ::: {#first-column}
--   資料來源：[屏東縣政府統計資訊網](https://google.com)
--   資料時間：112年底
+-   資料來源：[屏東縣政府統計資訊網](https://pthg.dgbas.gov.tw/StatWebRWD/Page/Default.aspx)
+-   資料時間：2023年底
 :::
 
 ::: {#second-column}

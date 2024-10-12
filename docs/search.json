@@ -221,14 +221,14 @@
     "href": "gallery.html#身心障礙人口數",
     "title": "Gallery",
     "section": "身心障礙人口數",
-    "text": "身心障礙人口數"
+    "text": "身心障礙人口數\n\n\n\n\n\n\n\n資料來源：衛生福利部統計處\n資料時間：2023年底\n\n\n\n\n使用工具：R\n圖表：點圖，長條圖，折線圖"
   },
   {
     "objectID": "gallery.html#屏東縣合作社概況",
     "href": "gallery.html#屏東縣合作社概況",
     "title": "Gallery",
     "section": "屏東縣合作社概況",
-    "text": "屏東縣合作社概況\n\n\n\n\n\n\n\n資料來源：屏東縣政府統計資訊網\n資料時間：112年底\n\n\n\n\n使用工具：Excel, PowerPoint\n圖表：折線圖，長條圖，矩形式樹狀圖，點圖"
+    "text": "屏東縣合作社概況\n\n\n\n\n\n\n\n資料來源：屏東縣政府統計資訊網\n資料時間：2023年底\n\n\n\n\n使用工具：Excel, PowerPoint\n圖表：折線圖，長條圖，矩形式樹狀圖，點圖"
   },
   {
     "objectID": "posts/DataViz/2024-09-身心障礙者人數/身心障礙人數.html#調整圖形的樣式",
@@ -242,7 +242,7 @@
     "href": "gallery.html#台電發購電能源",
     "title": "Gallery",
     "section": "台電發購電能源",
-    "text": "台電發購電能源"
+    "text": "台電發購電能源\n\n\n\n\n\n\n\n資料來源：台灣電力公司網站\n資料時間：2023年\n\n\n\n\n使用工具：R, Affinity Designer\n圖表：長條圖，折線圖"
   },
   {
     "objectID": "posts/DataViz/2024-09-lollipop_chart/lollipop.html",
