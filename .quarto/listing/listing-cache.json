@@ -2,6 +2,10 @@
   "listingMap": {
     "dataViz.qmd": [
       "posts/DataViz"
+    ],
+    "learning.qmd": [
+      "posts/DataViz",
+      "posts/Learning"
     ]
   }
 }

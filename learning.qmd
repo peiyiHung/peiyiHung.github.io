@@ -1,0 +1,9 @@
+---
+title: "Learning"
+listing:
+  contents: posts/Learning
+  type: default
+  categories: true
+  filter-ui: true
+  sort: "date desc"
+---
