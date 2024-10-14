@@ -9,6 +9,8 @@
   },
   {
     "listing": "/learning.html",
-    "items": []
+    "items": [
+      "/posts/Learning/book_NDDB/NDDB.html"
+    ]
   }
 ]

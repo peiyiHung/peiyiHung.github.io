@@ -35,7 +35,6 @@ fig-cap-location: top
 ![](DataViz_Gallery/發電能源/近年主要能源發購電量.png){group="台電能源"}
 
 ![](DataViz_Gallery/發電能源/自發電比例.png){group="台電能源"}
-
 :::
 
 <br>
@@ -62,6 +61,8 @@ fig-cap-location: top
 ![](DataViz_Gallery/身心障礙者人數/高雄_各類別.png){group="身心障礙"}
 
 ![](DataViz_Gallery/身心障礙者人數/近10年全台身心障礙者人數佔總人口比率.png){group="身心障礙"}
+
+![](DataViz_Gallery/身心障礙者人數/各類別性別.png){group="身心障礙"}
 :::
 
 ## 屏東縣合作社概況
