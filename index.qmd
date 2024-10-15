@@ -4,6 +4,13 @@ image: images/books.jpg
 toc: false
 about:
   template: trestles
+  links: 
+    - icon: envelope
+      href: mailto:p8526900@gmail.com
+      text: p8526900@gmail.com
+    - icon: github
+      href: https://github.com/peiyiHung
+      text: peiyiHung
 ---
 
 ## Bio
