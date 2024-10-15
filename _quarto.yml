@@ -12,7 +12,9 @@ website:
       - href: gallery.qmd
         text: Gallery
   favicon: images/favicon.ico
-
+  page-footer: "Copyright 2024, Peiyi Hung"
+  
+  
 format:
   html:
     theme: cosmo
@@ -23,3 +25,4 @@ format:
     
 editor: visual
 page-layout: full
+
