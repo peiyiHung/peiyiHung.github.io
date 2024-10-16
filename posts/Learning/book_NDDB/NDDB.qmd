@@ -14,8 +14,18 @@ page-layout: article
 
 > **如何讓我的資料視覺化作品看起來更加美觀且專業？**
 
-這個問題經常在我製作統計圖表時，躍上心頭。對平面設計一竅不通的我在追尋這個問題的答案時，**《好設計，4個法則就夠了》（The Non-Designer\`s Design Book, 4th Edition）**這本書的書名，急遽的吸引了我這個Non-designer的目光，我毫不猶豫地翻開了它。讀完後，我好像稍稍的朝向Designer前進了一點。我將會分享我學到的概念，並展示如何將其應用到我的資料視覺化作品中。
+這個問題經常在我製作統計圖表時，躍上心頭。對平面設計一竅不通的我在追尋這個問題的答案時，**《好設計，4個法則就夠了》（The Non-Designer\`s Design Book, 4th Edition）**這本書吸引了我這個Non-designer的目光，我毫不猶豫地翻開了它。讀完後，我好像稍稍的朝向Designer前進了一點。我將會分享在其中學到的概念，並展示如何將其應用到我的資料視覺化作品上。
+
+<br>
 
 # 鍛鍊你的設計眼光
+
+> Few people realize that exceptional outcomes are almost always achieved by people with higher-than-average standards.
+>
+> \- **Shane Parish**, *Clear Thinking*
+
+<br>
+
+此書在介紹設計法則時，會以大量的實例展示如何應用設計概念。
 
 # 4個設計法則
