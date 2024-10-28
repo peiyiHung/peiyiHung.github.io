@@ -7,9 +7,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="dcterms.date" content="2024-10-31">
-<meta name="description" content="reading">
+<meta name="description" content="簡述我從《好設計，4個法則就夠了》一書中學到的概念，並將其應用在資料視覺化作品中。">
 
-<title>Peiyi.H – N</title>
+<title>Peiyi.H – 《好設計，4個法則就夠了》，簡單的設計法則讓作品變得更美觀</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -42,6 +42,9 @@ ul.task-list li input[type="checkbox"] {
 <script src="../../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="../../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script src="../../../site_libs/quarto-contrib/glightbox/glightbox.min.js"></script>
+<link href="../../../site_libs/quarto-contrib/glightbox/glightbox.min.css" rel="stylesheet">
+<link href="../../../site_libs/quarto-contrib/glightbox/lightbox.css" rel="stylesheet">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -102,6 +105,10 @@ ul.task-list li input[type="checkbox"] {
     <a class="nav-link" href="../../../gallery.html"> 
 <span class="menu-text">Gallery</span></a>
   </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../../learning.html"> 
+<span class="menu-text">Learning</span></a>
+  </li>  
 </ul>
           </div> <!-- /navcollapse -->
             <div class="quarto-navbar-tools">
@@ -119,7 +126,13 @@ ul.task-list li input[type="checkbox"] {
    
   <ul>
   <li><a href="#鍛鍊你的設計眼光" id="toc-鍛鍊你的設計眼光" class="nav-link active" data-scroll-target="#鍛鍊你的設計眼光">鍛鍊你的設計眼光</a></li>
-  <li><a href="#個設計法則" id="toc-個設計法則" class="nav-link" data-scroll-target="#個設計法則">4個設計法則</a></li>
+  <li><a href="#個設計法則" id="toc-個設計法則" class="nav-link" data-scroll-target="#個設計法則">4個設計法則</a>
+  <ul class="collapse">
+  <li><a href="#相近proximity" id="toc-相近proximity" class="nav-link" data-scroll-target="#相近proximity">相近(Proximity)</a></li>
+  <li><a href="#對齊alignment" id="toc-對齊alignment" class="nav-link" data-scroll-target="#對齊alignment">對齊(Alignment)</a></li>
+  <li><a href="#重複repetition" id="toc-重複repetition" class="nav-link" data-scroll-target="#重複repetition">重複(Repetition)</a></li>
+  <li><a href="#對比contrast" id="toc-對比contrast" class="nav-link" data-scroll-target="#對比contrast">對比(Contrast)</a></li>
+  </ul></li>
   </ul>
 </nav>
     </div>
@@ -128,7 +141,7 @@ ul.task-list li input[type="checkbox"] {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">N</h1>
+<h1 class="title">《好設計，4個法則就夠了》，簡單的設計法則讓作品變得更美觀</h1>
   <div class="quarto-categories">
     <div class="quarto-category">book</div>
     <div class="quarto-category">design</div>
@@ -137,7 +150,7 @@ ul.task-list li input[type="checkbox"] {
 
 <div>
   <div class="description">
-    reading
+    簡述我從《好設計，4個法則就夠了》一書中學到的概念，並將其應用在資料視覺化作品中。
   </div>
 </div>
 
@@ -164,7 +177,7 @@ ul.task-list li input[type="checkbox"] {
 <blockquote class="blockquote">
 <p><strong>如何讓我的資料視覺化作品看起來更加美觀且專業？</strong></p>
 </blockquote>
-<p>這個問題經常在我製作統計圖表時，躍上心頭。對平面設計一竅不通的我在追尋這個問題的答案時，<strong>《好設計，4個法則就夠了》（The Non-Designer`s Design Book, 4th Edition）</strong>這本書吸引了我這個Non-designer的目光，我毫不猶豫地翻開了它。讀完後，我好像稍稍的朝向Designer前進了一點。我將會分享在其中學到的概念，並展示如何將其應用到我的資料視覺化作品上。</p>
+<p>這個問題經常在我製作統計圖表時，躍上心頭。對平面設計一竅不通的我在追尋這個問題的答案時，<strong>《好設計，4個法則就夠了》（The Non-Designer`s Design Book, 4th Edition）</strong>這本書吸引了我這個Non-designer的目光，我毫不猶豫地翻開了它。這篇文章中，我將會分享在書中學到的概念，並展示如何將其應用到我的資料視覺化作品上。</p>
 <p><br></p>
 <section id="鍛鍊你的設計眼光" class="level1">
 <h1>鍛鍊你的設計眼光</h1>
@@ -172,13 +185,89 @@ ul.task-list li input[type="checkbox"] {
 <p>Few people realize that exceptional outcomes are almost always achieved by people with higher-than-average standards.</p>
 <p>- <strong>Shane Parish</strong>, <em>Clear Thinking</em></p>
 </blockquote>
+<p>此書在介紹設計法則時，會以大量的實例展示如何應用設計概念，實際的展現這些設計概念的效能。在實例中，時常伴隨著一個小區塊，寫著「鍛鍊你的設計眼光」，其中的文字會提醒你去主動的觀察設計法則是如何被應用，有意識的去觀察應用了設計技巧後作品是如何變的優秀。</p>
+<p>對優秀的作品一無所知，要怎麼設計出優秀的作品？對自己作品所應達到的標準如果很低，怎能產出傑出的作品？作者Robin Williams想告訴讀者，培養對設計作品的品味，了解傑出作品所應具備的特質，應是從Non-designer前進Designer的旅途中必不可少的要素。</p>
+<p>因此，我決定將「鍛鍊設計眼光」的練習融入日常生活。舉例來說，當很多人漫無目的滑著Instagram或Threads時，我會在社群網站上追蹤資料視覺化設計師或相關的主題：</p>
+<div>
+
+</div>
+<div class="quarto-layout-panel" data-layout-ncol="2">
+<div class="quarto-layout-row">
+<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="img/screenshot2.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="500"></p>
+</figure>
+</div>
+</div>
+<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="img/screenshot1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="500"></p>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<p>希望能透過不斷的接觸設計作品來培養自己對視覺化作品的眼光。</p>
 <p><br></p>
-<p>此書在介紹設計法則時，會以大量的實例展示如何應用設計概念。</p>
 </section>
 <section id="個設計法則" class="level1">
 <h1>4個設計法則</h1>
+<p>就如中文書名所提示的，本書的主軸放在4個設計法則，分別是相近(proximity)、對齊(alignment)、對比(contrast)、重複(repetition)。</p>
+<p><br></p>
+<section id="相近proximity" class="level2">
+<h2 class="anchored" data-anchor-id="相近proximity">相近(Proximity)</h2>
+<p>「相近」指的是將相關的物件放在一起，揭示它們是屬於同一個群體，組成視覺單元，用以顯示出你作品中的結構。如果只是隨意的將各種物件放在一起，會看起來毫無章法，缺乏專業感。更嚴重的是，若將不相關的物件放得太近，會給讀者它們有關聯的錯覺，傳遞錯誤的資訊。</p>
+<p>用下面我做的這張圖表為例：</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><a href="img/Energy_small.png" class="lightbox" data-gallery="quarto-lightbox-gallery-1"><img src="img/Energy_small.png" class="img-fluid quarto-figure quarto-figure-center figure-img"></a></p>
+</figure>
+</div>
+<p>透過把相關的元素靠在一起，可以很明確的看出來有兩個大區塊，分別說明2023年的發電結構及歷年四種能源的發電量。在右邊這個區塊，我也使用相近原則區分出不同的能源。</p>
+</section>
+<section id="對齊alignment" class="level2">
+<h2 class="anchored" data-anchor-id="對齊alignment">對齊(Alignment)</h2>
+<p>「對齊」則是要我們注意文字或圖形對齊的方式，增加作品的整齊感。作者提到，初學者常在整個作品中都使用置中對齊，因為文字長短不一，容易在文字左右兩邊產生錯落感，看起來會比較雜亂。使用一致的對齊方式，能讓畫面上產生一條隱形的線，讓整體畫面顯得更井井有條。</p>
+<p>以下面這個長條圖為例：</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><a href="img/各類別身心障礙者人數_modified_before.png" class="lightbox" data-gallery="align"><img src="img/各類別身心障礙者人數_modified_before.png" class="img-fluid quarto-figure quarto-figure-center figure-img"></a></p>
+</figure>
+</div>
+<p>你可以看到，類別標籤和圖中的其他文字對齊的方式不同，而且因為各種類別的字數不同，所以類別標籤的錯落感很強烈。</p>
+<p>調整對齊方式後：</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><a href="img/各類別身心障礙者人數_modified.png" class="lightbox" data-gallery="align"><img src="img/各類別身心障礙者人數_modified.png" class="img-fluid quarto-figure quarto-figure-center figure-img"></a></p>
+</figure>
+</div>
+<p>因使用與標題和註解相同的對齊方式，你可以感受到左側有一條隱形的線，使得整體畫面變得更加和諧一致。</p>
+</section>
+<section id="重複repetition" class="level2">
+<h2 class="anchored" data-anchor-id="重複repetition">重複(Repetition)</h2>
+<p>「重複」指的是在作品中多次使用相同的視覺元素，以強調結構，增加一致性。可以使用重複的顏色、形狀、自型、大小等元素，提高整體作品的一致性，提升視覺吸引力。</p>
+<p>舉例來說， 下面的這兩張圖表，我都用了同樣的顏色來代表男性及女性的資料：</p>
+<p><a href="img/近10年全台身心障礙者人數佔總人口比率.png" class="lightbox" data-gallery="rep"><img src="img/近10年全台身心障礙者人數佔總人口比率.png" class="img-fluid quarto-figure quarto-figure-center"></a> <a href="img/各類別性別.png" class="lightbox" data-gallery="rep"><img src="img/各類別性別.png" class="img-fluid quarto-figure quarto-figure-center"></a></p>
+</section>
+<section id="對比contrast" class="level2">
+<h2 class="anchored" data-anchor-id="對比contrast">對比(Contrast)</h2>
+<p>「對比」指的是對作品中的物件製造對比，用以凸顯某些物件的不同。當作品一部分特別的不同，我們的目光很容易朝向這些突出的物件而去，能夠達到引導目光、強調重點的效果。</p>
+<p>用剛剛的長條圖為範例：</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><a href="img/各類別身心障礙者人數_modified.png" class="lightbox" data-gallery="quarto-lightbox-gallery-6"><img src="img/各類別身心障礙者人數_modified.png" class="img-fluid quarto-figure quarto-figure-center figure-img"></a></p>
+</figure>
+</div>
+<p>你可以看到，有兩種類別的長條我用了不一樣的顏色，這是用來強調數量特別多的兩個類別。透過突出的顏色能加深讀者的印象，更能傳遞資料中所隱含的資訊。</p>
+<p><br></p>
+<hr>
+<p><br></p>
+<p>身為設計門外漢的我，在讀這本書的時候，驚呼連連。因書中許多作品，在應用設計原則後，真的變好看許多。希望我也能朝著Designer前進一點，做能令人驚呼的作品。</p>
 
 
+</section>
 </section>
 
 </main> <!-- /main -->
@@ -616,6 +705,38 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     </div>
   </div>
 </footer>
+<script>var lightboxQuarto = GLightbox({"descPosition":"bottom","closeEffect":"zoom","selector":".lightbox","openEffect":"zoom","loop":false});
+(function() {
+  let previousOnload = window.onload;
+  window.onload = () => {
+    if (previousOnload) {
+      previousOnload();
+    }
+    lightboxQuarto.on('slide_before_load', (data) => {
+      const { slideIndex, slideNode, slideConfig, player, trigger } = data;
+      const href = trigger.getAttribute('href');
+      if (href !== null) {
+        const imgEl = window.document.querySelector(`a[href="${href}"] img`);
+        if (imgEl !== null) {
+          const srcAttr = imgEl.getAttribute("src");
+          if (srcAttr && srcAttr.startsWith("data:")) {
+            slideConfig.href = srcAttr;
+          }
+        }
+      } 
+    });
+  
+    lightboxQuarto.on('slide_after_load', (data) => {
+      const { slideIndex, slideNode, slideConfig, player, trigger } = data;
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(slideNode);
+      }
+    });
+  
+  };
+  
+})();
+          </script>
 
 
 
