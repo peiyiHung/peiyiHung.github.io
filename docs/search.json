@@ -4,14 +4,14 @@
     "href": "index.html",
     "title": "洪培翊 Peiyi Hung",
     "section": "",
-    "text": "熱愛資料視覺化，相信設計良好的統計圖表更能展現資料分析的價值。在工作中及各種媒體上，都能接觸到不少的統計圖表，看到設計的很差或醜陋的統計圖表，心中會忍不住的湧起想要將他們重新製作的衝動。學生時代名義上學的是經濟學，卻更著迷於統計學。因統計學而學會了使用R來整理及分析資料，並使用ggplot2來繪製圖表。正朝著資料視覺化專家邁進，希望未來能成為統計圖表的專業設計師。\n你(妳)可以透過 p8526900@gmail.com 聯繫我，歡迎跟我分享及交流更多與資料視覺化或資料分析相關的事物。"
+    "text": "熱愛資料視覺化，相信設計良好的統計圖表更能展現資料分析的價值。在工作中及各種媒體上，都能接觸到不少的統計圖表，看到設計的很差或醜陋的統計圖表，心中會忍不住的湧起想要將他們重新製作的衝動。\n學生時代名義上學的是經濟學，卻更著迷於統計學。因統計學而學會了使用R來整理及分析資料，並使用ggplot2來繪製圖表。正朝著資料視覺化專家邁進，希望未來能成為統計圖表的專業設計師。\n你(妳)可以透過 p8526900@gmail.com 聯繫我，歡迎跟我分享及交流更多與資料視覺化或資料分析相關的事物。"
   },
   {
     "objectID": "index.html#bio",
     "href": "index.html#bio",
     "title": "洪培翊 Peiyi Hung",
     "section": "",
-    "text": "熱愛資料視覺化，相信設計良好的統計圖表更能展現資料分析的價值。在工作中及各種媒體上，都能接觸到不少的統計圖表，看到設計的很差或醜陋的統計圖表，心中會忍不住的湧起想要將他們重新製作的衝動。學生時代名義上學的是經濟學，卻更著迷於統計學。因統計學而學會了使用R來整理及分析資料，並使用ggplot2來繪製圖表。正朝著資料視覺化專家邁進，希望未來能成為統計圖表的專業設計師。\n你(妳)可以透過 p8526900@gmail.com 聯繫我，歡迎跟我分享及交流更多與資料視覺化或資料分析相關的事物。"
+    "text": "熱愛資料視覺化，相信設計良好的統計圖表更能展現資料分析的價值。在工作中及各種媒體上，都能接觸到不少的統計圖表，看到設計的很差或醜陋的統計圖表，心中會忍不住的湧起想要將他們重新製作的衝動。\n學生時代名義上學的是經濟學，卻更著迷於統計學。因統計學而學會了使用R來整理及分析資料，並使用ggplot2來繪製圖表。正朝著資料視覺化專家邁進，希望未來能成為統計圖表的專業設計師。\n你(妳)可以透過 p8526900@gmail.com 聯繫我，歡迎跟我分享及交流更多與資料視覺化或資料分析相關的事物。"
   },
   {
     "objectID": "index.html#on-this-site",
@@ -32,7 +32,7 @@
     "href": "dataViz.html",
     "title": "Data Visualization 資料視覺化",
     "section": "",
-    "text": "對長條圖感到厭煩？何不試試棒棒糖圖(Lollipop chart)\n\n\n\n\n\n\nR\n\n\nggplot\n\n\n\n簡介棒棒糖圖(Lollipop chart)，告訴你什麼時候可以使用，並用ggplot2繪製它。\n\n\n\n\n\nSep 17, 2024\n\n\n\n\n\n\n\n\n\n\n\n\n身心障礙者人數佔總人口比率-資料取得、整理及視覺化\n\n\n\n\n\n\nR\n\n\ntidyverse\n\n\nggplot\n\n\ndot plot\n\n\n\n展示如何從Excel檔案中提取資料，再以點圖(dot plot)的方式做視覺化。\n\n\n\n\n\nSep 16, 2024\n\n\n\n\n\n\n\n\n\n\n\n\n如何使用ggplot2繪製長條圖\n\n\n\n\n\n\nR\n\n\nggplot\n\n\nbarplot\n\n\n\n告訴你如何繪製基本的長條圖並調整長條的顏色、寬度及排列順序。\n\n\n\n\n\nAug 2, 2024\n\n\n\n\n\n\nNo matching items\n\n Back to top"
+    "text": "對長條圖感到厭煩？何不試試棒棒糖圖(Lollipop chart)\n\n\n\n\n\n\nR\n\n\nggplot\n\n\n\n簡介棒棒糖圖(Lollipop chart)，告訴你什麼時候可以使用，並用ggplot2繪製它。\n\n\n\n\n\nSep 17, 2024\n\n\n\n\n\n\n\n\n\n\n\n\n身心障礙者人數佔總人口比率-資料取得、整理及視覺化\n\n\n\n\n\n\nR\n\n\ntidyverse\n\n\nggplot\n\n\ndot plot\n\n\n\n展示如何從Excel檔案中提取資料，再以點圖(dot plot)的方式做視覺化。\n\n\n\n\n\nSep 16, 2024\n\n\n\n\n\n\n\n\n\n\n\n\n如何使用ggplot2繪製長條圖\n\n\n\n\n\n\nR\n\n\nggplot\n\n\nbarplot\n\n\n\n告訴你如何繪製基本的長條圖並調整長條的顏色、寬度及排列順序。\n\n\n\n\n\nAug 2, 2024\n\n\n\n\n\n\nNo matching items"
   },
   {
     "objectID": "posts/DataViz/2024-08-02_batchart/barplot.html",
