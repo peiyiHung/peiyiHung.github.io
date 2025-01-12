@@ -1,0 +1,720 @@
+---
+title: "長條圖簡易使用指南"
+date: "2025-01-12"
+description: "利用簡單的例子說明如何設計更加簡單易懂的長條圖"
+categories: [barplot, Design]
+format: 
+  html:
+    toc: true
+editor: visual
+page-layout: article
+---
+
+很多人在做資料分析時，都使用過長條圖。長條圖簡單易懂，探查資料中的洞見與傳達資訊時，非常有用的工具。但差勁的設計會影響其傳達訊息的能力，甚至有可能扭曲資料分析的結果。長條圖被廣泛使用，不理想的設計亦因此隨處可見。如果你想順利發揮長條圖直觀且易理解的特性，這篇文章可以助你一臂之力。
+
+本文分為兩個部分，一是回答「長條圖是什麼？」這個問題，包含基本原理、使用時機、與直方圖的差異等；二是提供實用的長條圖設計訣竅，供你在實際製作長條圖時使用。
+
+# 長條圖(Bar chart)是什麼？
+
+長條圖的基本原理是使用長方形圖形(bar)的長度或高度來表示數值的大小，較長的長條就代表較大的數值，以非常直觀的方式幫助我們比較大小。下面這個圖中，長條的長度就代表一個類別的身心障礙者人數，我們可以很直覺的知道哪一個**類別**的人數較多：
+
+![](../../../DataViz_Gallery/身心障礙者人數/高雄_各類別.png){.lightbox fig-align="center"}
+
+比較類別是長條圖最常見的使用方法之一，另一個則是比較**時間**。下面長條圖呈現可支配所得的變化趨勢：
+
+![](img/income_illu.png){.lightbox fig-align="center" width="1600"}
+
+還有另一種大家不那麼熟悉的用法是顯示**比例**，整個長條代表整體，不同顏色的色塊面積代表不同類別的比例。下面這個圖就使用長條圖呈現男性及女性比例： ![](../../../DataViz_Gallery/身心障礙者人數/各類別性別.png){.lightbox fig-align="center"}
+
+::: callout-tip
+## 長條圖常用的使用情境：
+
+1.  比較類別間的數值大小
+
+2.  呈現一個數值隨時間的變化
+
+3.  呈現不同類別佔整體的比例
+:::
+
+<br>
+
+## 與直方圖(Histogram)的差異
+
+```{r}
+#| output: false
+#| echo: false
+library(tidyverse)
+library(ggpubr)
+```
+
+直方圖(Histogram)與長條圖(Bar chart)應該是大家最會搞混的兩種圖形。會搞混的原因應該是因為它們都使用長方形的高度來呈現數值大小。下面是一個直方圖，乍看之下，確實可能跟長條圖搞混：
+
+```{r}
+#| echo: false
+d <- rnorm(100, 10, 5)
+gghistogram(d, bins = 10, fill = "lightblue",
+            xlab = "數值", ylab = "計次") +
+    theme(
+        text = element_text(family = "Noto Sans TC")
+    )
+```
+
+兩種圖形最主要的差異在於呈現的**資料類型不同**。直方圖是用來呈現**連續數值的分配**，而長條圖是比較類別變數的大小。舉例來說，我們手邊有一組資料，共100筆的數值：
+
+```{r}
+#| echo: false
+d
+```
+
+直方圖的做法是，將連續的數值範圍切分成若干個數值區間，接著將每一筆數值歸類到區間裡面，再計算每個區間中有幾筆資料，長方形的高度就代表每一區間中的數量，以此來觀察整組資料的分配，或者說是呈現這組資料的大致輪廓。
+
+除此之外，在圖形的呈現上，有一細微的差異，直方圖因為是連續的範圍，長方形之間是緊密靠近的，長條圖得長方形則是有距離的。
+
+直方圖：
+
+```{r}
+#| out-width: "800"
+#| echo: false
+gghistogram(d, bins = 10, fill = "lightblue",
+            xlab = "數值", ylab = "計\n次\n") +
+    theme(
+        text = element_text(family = "Noto Sans TC"),
+        axis.title.y = element_text(angle = 360, vjust = 0.5)
+    )
+```
+
+長條圖：
+
+```{r}
+#| out-width: "800"
+#| echo: false
+df <- data.frame(dose=c("A", "B", "C"),
+                 len=c(29.5, 10, 6))
+ggbarplot(df, x = "dose", y = "len",
+          fill = "lightblue",
+          xlab = "類別", ylab = "數\n量\n") +
+    theme(
+        text = element_text(family = "Noto Sans TC"),
+        axis.title.y = element_text(angle = 360, vjust = 0.5)
+    )
+```
+
+::: callout-note
+直方圖呈現連續變數的分配，長條圖則呈現不同類型數量的大小
+:::
+
+<br>
+
+# 設計上的小訣竅
+
+在這一部分，我會提供實際在製作長條圖時可使用的設計訣竅，包括使用時機與背後的理由。
+
+## 1. 依大小排序
+
+比較高度是圖表使用者解讀長條圖時的主要任務，讓比較高度變得容易則是設計者的責任。將類別依據大小排序能有效的幫助讀者比較長方型的長度。
+
+請觀察下方這個長條圖：
+
+```{r}
+#| out-width: "800"
+#| echo: false
+set.seed(123)
+df2 <- data.frame(x = LETTERS[1:10],
+                  y = rnorm(10, mean = 50, sd = 20))
+df2 |> 
+    ggplot(aes(x = x, y = y)) +
+    geom_bar(stat = "identity", 
+             fill = "lightblue",
+             color = "black") +
+    labs(
+        x = "類別",
+        y = "數\n量"
+    ) +
+    theme_pubr(base_family = "Noto Sans TC") +
+    theme(
+        axis.title.y = element_text(angle = 360, vjust = 0.5)
+    )
+```
+
+你能很快地看出A和J哪一個比較大嗎？我想應該很難。透過排序，我們可以讓讀者很快速且輕易的比較大小：
+
+```{r}
+#| out-width: "800"
+#| echo: false
+df2 |> 
+    ggplot(aes(x = fct_reorder(x, desc(y)), y = y)) +
+    geom_bar(stat = "identity", 
+             fill = "lightblue",
+             color = "black") +
+    labs(
+        x = "類別",
+        y = "數\n量"
+    ) +
+    theme_pubr(base_family = "Noto Sans TC") +
+    theme(
+        axis.title.y = element_text(angle = 360, vjust = 0.5)
+    )
+```
+
+很清楚的，J是比A大的。
+
+排序的效果在種類越多時越好。如果只比較3個種類，那無需排序也能順利的比較大小：
+
+```{r}
+#| out-width: "800"
+#| echo: false
+
+set.seed(13)
+df3 <- data.frame(x = LETTERS[1:3],
+                  y = rnorm(3, mean = 50, sd = 20))
+df3 |> 
+    ggplot(aes(x = x, y = y)) +
+    geom_bar(stat = "identity", 
+             fill = "lightblue",
+             color = "black",
+             width = 0.6) +
+    labs(
+        x = "類別",
+        y = "數\n量"
+    ) +
+    theme_pubr(base_family = "Noto Sans TC") +
+    theme(
+        axis.title.y = element_text(angle = 360, vjust = 0.5)
+    )
+```
+
+如果有25個種類要比較呢？這時比較會變得困難，你可以試著閱讀下面這個圖，並嘗試比較其中的類別：
+
+```{r}
+#| out-width: "800"
+#| echo: false
+
+set.seed(13)
+df4 <- data.frame(x = LETTERS[1:25],
+                  y = rnorm(25, mean = 50, sd = 20))
+df4 |> 
+    ggplot(aes(x = x, y = y)) +
+    geom_bar(stat = "identity", 
+             fill = "lightblue",
+             color = "black") +
+    labs(
+        x = "類別",
+        y = "數\n量"
+    ) +
+    theme_pubr(base_family = "Noto Sans TC") +
+    theme(
+        axis.title.y = element_text(angle = 360, vjust = 0.5)
+    )
+```
+
+排序之後，類別間的大小次序會變得更加清楚：
+
+```{r}
+#| out-width: "800"
+#| echo: false
+
+df4 |> 
+    ggplot(aes(x = fct_reorder(x, desc(y)), y = y)) +
+    geom_bar(stat = "identity", 
+             fill = "lightblue",
+             color = "black") +
+    labs(
+        x = "類別",
+        y = "數\n量"
+    ) +
+    theme_pubr(base_family = "Noto Sans TC") +
+    theme(
+        axis.title.y = element_text(angle = 360, vjust = 0.5)
+    )
+```
+
+並非所有的長條圖都需要排序，呈現時間變化的長條圖即是例外，或者更廣泛地說，種類間存在固有次序時，排序都不是個好主意。時間有次序，大、中、小有次序、年齡組也有次序，這些都是不要依大小排序的情形。
+
+```{r}
+#| output: false
+#| echo: false
+library(scales)
+```
+
+```{r}
+#| out-width: "800"
+#| echo: false
+
+df5 <- data.frame(
+    x = c("0~14歲", "15~64歲", "65歲以上"),
+    y = c(2793413, 16330044, 4296985)
+)
+df5 |> 
+    ggplot(aes(x = x, y = y)) +
+    geom_bar(stat = "identity",
+             fill = "lightblue",
+             color = "black",
+             width = 0.6) +
+    scale_y_continuous(
+        breaks = c()
+    ) +
+    labs(
+        x = "年齡組",
+        y = "",
+        title = "112年底總人口數"
+    ) +
+    geom_text(aes(x = x, y = y+500000, label = comma(y))) +
+    theme_pubr(base_family = "Noto Sans TC") +
+    theme(
+        plot.title = element_text(hjust = 0.5, size = 14)
+    )
+```
+
+::: callout-tip
+1.  依數值大小排序有利於做比較。
+2.  存在固有次序的類別不需排序，例如時間、年齡組。
+:::
+
+<br>
+
+## 2. 在類別名稱很長時，使用橫向長條圖
+
+怎麼樣的情況算得上類別名稱很長呢？以下是一個比較極端的例子：
+
+```{r}
+#| out-width: "800"
+#| echo: false
+df6 <- read_csv("各類別人數.csv", show_col_types = F) |> 
+       filter(region == "全國")
+df6 |> 
+    ggplot(aes(x = fct_reorder(class, desc(number)), y = number)) +
+    geom_bar(stat = "identity", 
+             fill = "lightblue",
+             color = "black") +
+    scale_y_continuous(
+        breaks = seq(0, 400001, by = 100000 ),
+        labels = label_comma()
+    ) +
+    labs(
+        title = "112年底各類別身心障礙人數",
+        x = "身心障礙者類別",
+        y = "人\n數"
+    ) +
+    theme_pubr(base_family = "Noto Sans TC") +
+    theme(
+        plot.title = element_text(hjust = 0.5, size = 14),
+        axis.title.y = element_text(angle = 360, vjust = 0.5)
+    )
+```
+
+因為身心障礙者的類別名稱都很長，使用一般的長條圖時，名稱會互相重疊，無法判讀類別的名稱。這個例子或許有點太極端了，但因空間不足，造成類別名稱難以判讀的長條圖隨處可見。因為名稱是由左讀到右，因此使用橫向長條圖能緩解這個問題。
+
+```{r}
+#| out-width: "1000"
+#| echo: false
+df6 |> 
+    ggplot(aes(x = fct_reorder(class, number), y = number)) +
+    geom_bar(stat = "identity", 
+             fill = "lightblue",
+             color = "black", 
+             width = 0.8) +
+    scale_y_continuous(
+        breaks = seq(0, 400001, by = 100000 ),
+        labels = label_comma()
+    ) +
+    labs(
+        title = "112年底各類別身心障礙人數",
+        x = "身\n心\n障\n礙\n者\n類\n別",
+        y = "人數"
+    ) +
+    theme_pubr(base_family = "Noto Sans TC") +
+    theme(
+        plot.title = element_text(hjust = 1, size = 14),
+        axis.text.y = element_text(hjust = 0, size = 10),
+        axis.title = element_text(size = 10),
+        axis.title.y = element_text(angle = 360, vjust = 0.5)
+    ) +
+    coord_flip()
+```
+
+## 3. 從0開始的長條，才能正確的比較數值
+
+長條圖使用長條的長度表示數值的大小，所以長條的長度必須反映數值間的大小及比例關係。具體來說，代表數值100的長方形應該要比代表數值50的長方形而且長度要是兩倍：
+
+```{r}
+#| out-width: "800"
+#| echo: false
+data.frame(x = c(100, 50), y = c("A", "B")) |> 
+    ggplot(aes(x = x, y = fct_reorder(y, x))) +
+    geom_bar(stat = 'identity',
+             fill = "lightblue",
+             color = "black", width = 0.7) +
+    theme_pubr() +
+    theme(
+        axis.title = element_blank()
+    )
+```
+
+但常見的錯誤是截斷長條圖，讓長條圖不從0開始「生長」。這樣的設計會給讀者錯誤的印象，傳達不準確的資訊。舉例來說，觀察下面這個六都房屋自有率的長條圖：
+
+```{r}
+#| out-width: "800"
+#| echo: false
+home <- data.frame(
+    per = c(82.96,84.17,83.12,79.17,86.54,85.16),
+    city = c("新北市","臺北市","桃園市","臺中市","臺南市","高雄市")
+)
+home |> 
+    ggplot(aes(x = fct_reorder(city, desc(per)), y = per)) +
+    geom_bar(stat = "identity", fill = "lightblue", color = "black") +
+    coord_cartesian(ylim = c(77, 87)) +
+    labs(
+       title = "2023年底六都房屋自有率" ,
+       caption = "資料來源：112年家庭收支調查報告"
+    ) +
+    theme_pubr() +
+    theme(
+        text = element_text(family = "Noto Sans TC"),
+        plot.title = element_text(size = 16, hjust = 0.5),
+        axis.title = element_blank()
+    )
+```
+
+單就圖形帶給你的印象，你會覺得臺中市相較於台南市低很多，並且台中市也比其他4都都來得低。就是因為沒有從0開始才給你這種印象，正確的畫出來的話應是：
+
+```{r}
+#| out-width: "800"
+#| echo: false
+home <- data.frame(
+    per = c(82.96,84.17,83.12,79.17,86.54,85.16),
+    city = c("新北市","臺北市","桃園市","臺中市","臺南市","高雄市")
+)
+home |> 
+    ggplot(aes(x = fct_reorder(city, desc(per)), y = per)) +
+    geom_bar(stat = "identity", fill = "lightblue", color = "black") +
+    labs(
+       title = "2023年底六都房屋自有率" ,
+       caption = "資料來源：112年家庭收支調查報告"
+    ) +
+    theme_pubr() +
+    theme(
+        text = element_text(family = "Noto Sans TC"),
+        plot.title = element_text(size = 16, hjust = 0.5),
+        axis.title = element_blank()
+    )
+```
+
+其實六都的自有率都蠻高的，而且差距並不算太大。能更好顯示出六都房屋自有率差距的是，以全台自有率作為基準：
+
+```{r}
+#| out-width: "800"
+#| echo: false
+home |> 
+    mutate(diff = per - 84.50) |> 
+    ggplot(aes(x = fct_reorder(city, desc(diff)), y = diff)) +
+    geom_bar(stat = "identity", fill = "lightblue", color = "black") +
+    scale_y_continuous(
+        limits = c(-6, 6)
+    ) +
+    labs(
+       title = "2023年底六都房屋自有率與全台自有率之差距" ,
+       caption = "資料來源：112年家庭收支調查報告"
+    ) +
+    theme_pubr() +
+    theme(
+        text = element_text(family = "Noto Sans TC"),
+        plot.title = element_text(size = 16, hjust = 0.5),
+        axis.title = element_blank()
+    )
+```
+
+通常使用截斷的長條圖的理由是想要凸顯某些沒那麼明顯的差距，以支持自己的論點，大家在閱讀長條圖時要特別注意，自己在設計時也請別這麼做。
+
+## 4. 不要用太多的顏色，用顏色強調差異
+
+這一節主要想講述顏色的使用，顏色所帶來的視覺差異能用來強調資料中的差異，像是呈現不同類別或數值。因此，當已使用其他方法呈現差異時，不需要再使用顏色來顯示差異。在長條圖的例子中，最常見的是將所有的長條以不同的顏色呈現：
+
+```{r}
+#| out-width: "800"
+#| echo: false
+
+set.seed(123)
+df7 <- data.frame(x = LETTERS[1:12],
+                  y = rnorm(12, mean = 50, sd = 20))
+df7 |> 
+    ggplot(aes(x = fct_reorder(x, desc(y)), y = y, fill = x)) +
+    geom_bar(stat = "identity", color = "black") +
+    labs(
+        x = "類別",
+        y = "數\n量"
+    ) +
+    scale_fill_brewer(palette = "Set3") +
+    theme_pubr(base_family = "Noto Sans TC") +
+    theme(
+        axis.title.y = element_text(angle = 360, vjust = 0.5),
+        legend.position = "none"
+    )
+```
+
+長條圖已使用擺放在不同位置、不同長度的長條來顯示差異，太多的顏色沒有實質的作用，反而會讓圖形過於雜亂，尤其在選擇的顏色過於炫目的時候。
+
+```{r}
+#| out-width: "800"
+#| echo: false
+df7 |> 
+    ggplot(aes(x = fct_reorder(x, desc(y)), y = y, fill = x)) +
+    geom_bar(stat = "identity", color = "black") +
+    labs(
+        x = "類別",
+        y = "數\n量"
+    ) +
+    scale_fill_hue(h = c(0, 360), c = 100, l = 100) +
+    theme_pubr(base_family = "Noto Sans TC") +
+    theme(
+        axis.title.y = element_text(angle = 360, vjust = 0.5),
+        legend.position = "none"
+    )
+```
+
+顏色在長條圖中最主要的使用方法是用來表示差異。舉例來說，用來表示特別高的數值或顯示不同的次類別。
+
+```{r}
+#| out-width: "800"
+#| echo: false
+df7 |> 
+    mutate(
+        marked = if_else(y > 60, "1", "0")
+    ) |> 
+    ggplot(aes(x = fct_reorder(x, desc(y)), y = y, fill = marked)) +
+    geom_bar(stat = "identity", color = "black") +
+    labs(
+        x = "類別",
+        y = "數\n量"
+    ) + 
+    scale_fill_manual(values = c("grey", "#fbb4ae")) +
+    theme_pubr(base_family = "Noto Sans TC") +
+    theme(
+        axis.title.y = element_text(angle = 360, vjust = 0.5),
+        legend.position = "none"
+    )
+```
+
+或是可以用來區別不同方向的數值：
+
+```{r}
+#| out-width: "800"
+#| echo: false
+home |> 
+    mutate(diff = per - 84.50,
+           marked = if_else(diff > 0, "1", "0")) |> 
+    ggplot(aes(x = fct_reorder(city, desc(diff)), 
+               y = diff, 
+               fill = marked)) +
+    geom_bar(stat = "identity", color = "black") +
+    scale_y_continuous(
+        limits = c(-6, 6)
+    ) +
+    labs(
+       title = "2023年底六都房屋自有率與全台自有率之差距" ,
+       caption = "資料來源：112年家庭收支調查報告"
+    ) +
+    theme_pubr() +
+    theme(
+        text = element_text(family = "Noto Sans TC"),
+        plot.title = element_text(size = 16, hjust = 0.5),
+        axis.title = element_blank(),
+        legend.position = "None"
+    )  +
+    annotate(
+        geom = "label", y = 5, x = "臺中市",
+        label = "全台自有率\n84.5%",
+        family = "Noto Sans TC"
+    ) +
+    annotate(
+        geom = "text", y = -5.8, x = "臺中市",
+        label = "-5.33%",
+        family = "Noto Sans TC"
+    ) +
+    annotate(
+        geom = "text", y = 2.5, x = "臺南市",
+        label = "2.04%",
+        family = "Noto Sans TC"
+    )
+```
+
+## 5. 當數值的差異很大的時候，該怎麼辦呢？
+
+另一個使用長條圖時常見的問題是要比較的數值差異過大，過大的那個數值會讓其他較小數值間的差異變得不明顯，甚至是令人難以判別。請觀察下面這個例子：
+
+```{r}
+#| out-width: "800"
+#| echo: false
+df8 <- data.frame(
+    type = LETTERS[1:5],
+    val = c(2000, 40, 38, 5, 1)
+)
+df8 |> 
+    ggplot(aes(x = type, y = val)) +
+    geom_bar(stat = "identity", width = 0.8,
+             fill = "lightblue", color = "black") +
+    theme_pubr(base_family = "Noto Sans TC") +
+    labs(
+        x = "類別", y = "數\n值"
+    ) +
+    theme(
+        axis.title.y = element_text(angle = 360, vjust = 0.5)
+    ) +
+    annotate(
+        geom = "text", y = 100, x = "B",
+        label = "40",
+        family = "Noto Sans TC"
+    ) +
+    annotate(
+        geom = "text", y = 100, x = "C",
+        label = "38",
+        family = "Noto Sans TC"
+    ) +
+    annotate(
+        geom = "text", y = 80, x = "D",
+        label = "5",
+        family = "Noto Sans TC"
+    ) +
+    annotate(
+        geom = "text", y = 80, x = "E",
+        label = "1",
+        family = "Noto Sans TC"
+    ) +
+    annotate(
+        geom = "text", y = 2070, x = "A",
+        label = "2000",
+        family = "Noto Sans TC"
+    ) 
+```
+
+因為A的數值大大了，讓其他數值間的差異變得微乎其微。B的數值其實是D的4倍，D是E的5倍，但我們很難在圖中感受到這些資訊。
+
+想要解決這個問題，其中一個辦法是將數值分到另一個圖形做比較。拿上面那個例子來說，可以把除了A以外的數值分開來放在另一個圖形，讓其他數值可以正常的做比較：
+
+```{r}
+#| out-width: "800"
+#| echo: false
+library(patchwork)
+p1 <- df8 |> 
+    ggplot(aes(x = type, y = val)) +
+    geom_bar(stat = "identity", width = 0.8,
+             fill = "lightblue", color = "black") +
+    theme_pubr(base_family = "Noto Sans TC") +
+    labs(
+        x = "類別", y = "數\n值"
+    ) +
+    theme(
+        axis.title.y = element_text(angle = 360, vjust = 0.5)
+    ) +
+    annotate(
+        geom = "text", y = 100, x = "B",
+        label = "40",
+        family = "Noto Sans TC"
+    ) +
+    annotate(
+        geom = "text", y = 100, x = "C",
+        label = "38",
+        family = "Noto Sans TC"
+    ) +
+    annotate(
+        geom = "text", y = 80, x = "D",
+        label = "5",
+        family = "Noto Sans TC"
+    ) +
+    annotate(
+        geom = "text", y = 80, x = "E",
+        label = "1",
+        family = "Noto Sans TC"
+    ) +
+    annotate(
+        geom = "text", y = 2070, x = "A",
+        label = "2000",
+        family = "Noto Sans TC"
+    ) 
+
+p2 <- df8 |> 
+    filter(type != "A") |> 
+    ggplot(aes(x = type, y = val)) +
+    geom_bar(stat = "identity", width = 0.7,
+             fill = "#ccebc5", color = "black") +
+    theme_pubr(base_family = "Noto Sans TC") +
+    labs(
+        x = "類別", y = "數\n值"
+    ) +
+    theme(
+        axis.title.y = element_text(angle = 360, vjust = 0.5)
+    ) +
+    annotate(
+        geom = "text", y = 42, x = "B",
+        label = "40",
+        family = "Noto Sans TC"
+    ) +
+    annotate(
+        geom = "text", y = 40, x = "C",
+        label = "38",
+        family = "Noto Sans TC"
+    ) +
+    annotate(
+        geom = "text", y = 7, x = "D",
+        label = "5",
+        family = "Noto Sans TC"
+    ) +
+    annotate(
+        geom = "text", y = 3, x = "E",
+        label = "1",
+        family = "Noto Sans TC"
+    )
+(p1 + p2)
+```
+
+另一種作法則是改成使用點圖(dot plot)，並使用對數尺度呈現數值：
+
+```{r}
+#| out-width: "800"
+#| echo: false
+df8 |> 
+    ggplot(aes(x = type, y = val)) +
+    geom_point(stat = "identity", pch = 21,
+             fill = "lightblue", color = "black") +
+    theme_pubr(base_family = "Noto Sans TC") +
+    labs(
+        x = "類別", y = "數\n值",
+        caption = "註：因數值差異過大，以對數尺度呈現點的位置"
+    ) +
+    theme(
+        axis.title.y = element_text(angle = 360, vjust = 0.5)
+    ) +
+    scale_y_log10() +
+    annotate(
+        geom = "text", y = 52, x = "B",
+        label = "40",
+        family = "Noto Sans TC"
+    ) +
+    annotate(
+        geom = "text", y = 50, x = "C",
+        label = "38",
+        family = "Noto Sans TC"
+    ) +
+    annotate(
+        geom = "text", y = 7, x = "D",
+        label = "5",
+        family = "Noto Sans TC"
+    ) +
+    annotate(
+        geom = "text", y = 1.3, x = "E",
+        label = "1",
+        family = "Noto Sans TC"
+    ) +
+    annotate(
+        geom = "text", y = 2700, x = "A",
+        label = "2000",
+        family = "Noto Sans TC"
+    ) 
+```
+
+<br>
+
+------------------------------------------------------------------------
+
+<br>
+
+以上就是我統整出來的長條圖使用訣竅，希望能幫助你做出更加容易理解的長條圖。

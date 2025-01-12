@@ -15,7 +15,7 @@ website:
         text: Learning 
   favicon: images/favicon.ico
   page-footer: "Copyright 2024, Peiyi Hung"
-  
+  draft-mode: unlinked
   
 format:
   html:

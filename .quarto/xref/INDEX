@@ -31,5 +31,11 @@
   },
   "posts/Learning/book_NDDB/NDDB.qmd": {
     "NDDB.html": "3343ccdd"
+  },
+  "barchart_design.qmd": {
+    "barchart_design.html": "e37773d0"
+  },
+  "posts/DataViz/2024-11_BarChart_Design/barchart_design.qmd": {
+    "barchart_design.html": "4d9a1868"
   }
 }
